@@ -12,5 +12,4 @@ export const authGuard: CanActivateChildFn = (childRoute, state) => {
   }
 
   return router.parseUrl('/signin');
-  
 };
