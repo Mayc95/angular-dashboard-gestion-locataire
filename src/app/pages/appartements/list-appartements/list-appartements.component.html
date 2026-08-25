@@ -92,11 +92,14 @@
           <span class="font-semibold text-gray-800">{{ appartement.numPorte
             }}</span>
         </div>
+        @if (appartement.idLocataire != null && appartement.nomLocataire !=
+        null) {
         <div class="flex justify-between text-sm">
           <span class="text-gray-500">Locataire :</span>
           <span class="font-semibold text-gray-800">{{
-            appartement.nomCompletLocataire }}</span>
+            appartement.nomLocataire }}</span>
         </div>
+        }
       </div>
 
       }
@@ -154,9 +157,9 @@
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
             {{
-            appartement.nomCompletLocataire.length <= 0
-            ? "AUCUN"
-            : appartement.nomCompletLocataire
+            (appartement.idLocataire != null && appartement.nomLocataire != null)
+            ? appartement.nomLocataire
+            : "AUCUN"
             }}
           </td>
           <!--  

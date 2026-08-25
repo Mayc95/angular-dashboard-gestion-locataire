@@ -1,15 +1,17 @@
+import { ListAppartement } from './../../models/appartement.model';
 import { filter, from, map, Observable, of } from "rxjs";
-import { ListLocataires, ListAppartements, Locataire, Appartement } from "../../models/locataire.model";
+import { ListLocataires, Locataire } from "../../models/locataire.model";
 import { LocatairesService } from "../locataires.service";
 
 import { app, db } from "../../../firebase/firebase";
 import { Injectable } from "@angular/core";
 import { addDoc, updateDoc, deleteDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { Appartement } from "../../models/appartement.model";
 
 @Injectable({
     providedIn: 'root'
 })
-export class LocatairesFirebaseCloudstoreService implements LocatairesService {
+export class LocatairesFirebaseCloudstoreService {
 
     private locatairesCollectionRef = collection(db, 'locataires');
     private appartementsCollectionRef = collection(db, 'appartements');
@@ -42,7 +44,7 @@ export class LocatairesFirebaseCloudstoreService implements LocatairesService {
             return false;
         }
     }
-    async addAppartementDoc(appartement: Omit<Appartement, 'id'>) {
+    async addAppartementDoc(appartement: Appartement) {
         try {
             const newAppartDoc = {
                 num: appartement.num,
@@ -151,7 +153,7 @@ export class LocatairesFirebaseCloudstoreService implements LocatairesService {
     getListLocataires(): Observable<ListLocataires> {
         return from(this.getAllLocatairesDoc()).pipe(map(list => list));
     }
-    getListAppartements(): Observable<ListAppartements> {
+    getListAppartements(): Observable<ListAppartement> {
         return from(this.getAllAppartsDocs()).pipe(map(list => list));
     }
     getLocataireById(idlocataire: string): Observable<any> {

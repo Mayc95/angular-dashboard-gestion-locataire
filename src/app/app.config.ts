@@ -10,12 +10,17 @@ import { PaiementsFirebaseCloudstoreService } from './shared/services/firebase-c
 import { LocatairesService } from './shared/services/locataires.service';
 import { LocatairesFirebaseCloudstoreService } from './shared/services/firebase-cloudstore/locataires-firebase-cloudstore.service';
 import { LocatairesJsonServerService } from './shared/services/json-server/locataires-json-server.service';
+import { AppartementService } from './shared/services/appartement.service';
+import { AppartementApiService } from './shared/services/api/appartement-api.service';
 
 export function paiementsServiceFactory(): PaiementsService {
   return new PaiementsFirebaseCloudstoreService();
 }
 export function locatairesServiceFactory(): LocatairesService {
   return new LocatairesFirebaseCloudstoreService();
+}
+export function appartementsServiceFactory(): AppartementService {
+  return new AppartementApiService();
 }
 
 
@@ -24,6 +29,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     provideHttpClient(),
+    {
+      provide: AppartementService,
+      useFactory: appartementsServiceFactory
+    },
     {
       provide: PaiementsService,
       useFactory: paiementsServiceFactory

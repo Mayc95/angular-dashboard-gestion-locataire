@@ -1,5 +1,5 @@
 import { getDoc } from 'firebase/firestore';
-import { LIST_ETAGE, LIST_PORTE, Locataire, ListLocataires } from './../../../shared/models/locataire.model';
+import { Locataire, ListLocataires } from './../../../shared/models/locataire.model';
 import { Component, computed, effect, inject, OnInit, signal } from "@angular/core";
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ModalComponent } from "../../../shared/components/ui/modal/modal.component";
@@ -14,6 +14,7 @@ import { RouterLink } from "@angular/router";
 import { LocatairesJsonServerService } from '../../../shared/services/json-server/locataires-json-server.service';
 import { LocatairesService } from '../../../shared/services/locataires.service';
 import { LocatairesFirebaseCloudstoreService } from '../../../shared/services/firebase-cloudstore/locataires-firebase-cloudstore.service';
+import { LIST_ETAGE, LIST_PORTE } from '../../../shared/models/appartement.model';
 
 @Component({
   selector: "app-list",

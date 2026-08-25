@@ -5,13 +5,14 @@ import { ComponentCardComponent } from "../../../shared/components/common/compon
 import { LabelComponent } from "../../../shared/components/form/label/label.component";
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
-import { LIST_ETAGE, LIST_PORTE, Locataire } from "../../../shared/models/locataire.model";
+import { Locataire } from "../../../shared/models/locataire.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { catchError, delay, map, of } from "rxjs";
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
 import { SelectComponent } from "../../../shared/components/form/select/select.component";
 import { LocatairesService } from '../../../shared/services/locataires.service';
+import { LIST_ETAGE, LIST_PORTE } from '../../../shared/models/appartement.model';
 
 @Component({
   selector: "app-edit-locataire",
@@ -56,26 +57,27 @@ export class EditLocataireComponent {
   readonly loading = computed(() => this.#locataireResponse() == undefined);
   readonly error = computed(() => this.#locataireResponse()?.error);
 
-  readonly #listAppartmentResponse = toSignal(
-    this.#locatairesService.getListAppartements().pipe(
-      map((value) => ({value:value, error:undefined})),
-      catchError(() => of({value:undefined, error:true}))
-    )
-  )
-  readonly loadingSelectAppartementOption = computed(() => this.#listAppartmentResponse() == undefined);
-  readonly listAppartementOptions = computed(() => this.#listAppartmentResponse()?.value?.filter((app) => (
-    app.locataireId.trim().length <= 0 && app.nomCompletLocataire.trim().length <= 0
-  )).map((appartement) => ({
-      value: appartement.id,
-      label: `${appartement.num}`
-    })) || []);
+  
+  // readonly #listAppartmentResponse = toSignal(
+  //   this.#locatairesService.getListAppartements().pipe(
+  //     map((value) => ({value:value, error:undefined})),
+  //     catchError(() => of({value:undefined, error:true}))
+  //   )
+  // )
+  // readonly loadingSelectAppartementOption = computed(() => this.#listAppartmentResponse() == undefined);
+  // readonly listAppartementOptions = computed(() => this.#listAppartmentResponse()?.value?.filter((app) => (
+  //   app.locataireId.trim().length <= 0 && app.nomCompletLocataire.trim().length <= 0
+  // )).map((appartement) => ({
+  //     value: appartement.id,
+  //     label: `${appartement.num}`
+  //   })) || []);
 
 
   readonly showLoadingOnSubmitForm = signal(false);
   readonly showErrorAlertOnSubmitForm = signal(false);
   readonly errorAlertOnSubmitFormMessage = signal("");
 
-  
+  /*
   handleSelectAppartementChange(value: string) {
     console.log("liste apparts options: ");
     console.log(this.listAppartementOptions());
@@ -87,6 +89,7 @@ export class EditLocataireComponent {
       }
     }
   }
+    */
 
   onSubmitUpdateLocataireForm() {
     console.log("updated locataire data: ");

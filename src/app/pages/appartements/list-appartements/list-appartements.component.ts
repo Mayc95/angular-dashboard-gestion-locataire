@@ -1,7 +1,5 @@
-import { Appartement, ListAppartements } from './../../../shared/models/locataire.model';
 import { Component, computed, inject, signal } from "@angular/core";
 import { NotFoundComponent } from "../../other-page/not-found/not-found.component";
-import { LocatairesService } from "../../../shared/services/locataires.service";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { catchError, map } from "rxjs/operators";
 import { of } from "rxjs";
@@ -12,6 +10,8 @@ import { InputFieldComponent } from "../../../shared/components/form/input/input
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
 import { Router } from '@angular/router';
 import { FormfieldsValidationService } from '../../../shared/services/formfields.validation.service';
+import { AppartementService } from "../../../shared/services/appartement.service";
+import { AppartementDetails } from "../../../shared/models/appartement.model";
 
 @Component({
   selector: "app-list-appartements",
@@ -21,12 +21,12 @@ import { FormfieldsValidationService } from '../../../shared/services/formfields
 })
 export class ListAppartementsComponent {
 
-  readonly #locatairesServices = inject(LocatairesService);
+  readonly #appartementService = inject(AppartementService);
   readonly router = inject(Router);
   readonly formfieldsValidationService = inject(FormfieldsValidationService);
 
   readonly #listAppartementsResponse = toSignal(
-    this.#locatairesServices.getListAppartements().pipe(
+    this.#appartementService.getListAppartement().pipe(
       map((value) => ({ value: value, error: undefined }),
         catchError((error) => of({ value: undefined, error: error }))
       ))
@@ -60,11 +60,11 @@ export class ListAppartementsComponent {
           return appart;
         }
         // on cherche dans la colonne locataire du tableau
-        if (appart.nomCompletLocataire.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if (appart.nomLocataire.toLowerCase().includes(searchedWord.toLowerCase())) {
           return appart;
         }
         // on cherche dans la colonne locataire le mot aucun
-        if (searchedWord.toLowerCase() == 'aucun'.toLowerCase() && appart.nomCompletLocataire.trim().toLowerCase().length <= 0) {
+        if (searchedWord.toLowerCase() == 'aucun'.toLowerCase() && appart.nomLocataire.trim().toLowerCase().length <= 0) {
           return appart;
         }
         return;
@@ -74,13 +74,13 @@ export class ListAppartementsComponent {
     return list;
   })
 
-  newAppartement: Appartement = {
+  newAppartement: AppartementDetails = {
     id: '',
     num: 0,
     numEtage: 0,
     numPorte: 0,
-    locataireId: '',
-    nomCompletLocataire: ''
+    idLocataire: '',
+    nomLocataire: ''
   };
   addAppartementModalLoading = signal(false);
   addAppartementModalError = signal(false);
@@ -137,7 +137,7 @@ export class ListAppartementsComponent {
 
     this.addAppartementModalLoading.set(true);
 
-    this.#locatairesServices.addAppartement(this.newAppartement).subscribe({
+    this.#appartementService.addAppartement(this.newAppartement).subscribe({
       next: () => {
         this.searchedWord.set("");
         this.closeAddAppartementModal();

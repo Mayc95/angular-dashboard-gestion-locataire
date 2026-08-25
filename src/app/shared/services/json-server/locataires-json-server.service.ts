@@ -1,21 +1,18 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { Appartement, ListAppartements, ListLocataires, Locataire } from "../../models/locataire.model";
+import { ListLocataires, Locataire } from "../../models/locataire.model";
 import { LocatairesService } from "../locataires.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class LocatairesJsonServerService implements LocatairesService {
+export class LocatairesJsonServerService {
   
   readonly #LOCATAIRES_API_URL = 'http://localhost:3000/locataires';
   readonly #APPARTEMENTS_API_URL = 'http://localhost:3000/appartements';
   readonly #http = inject(HttpClient);
 
-  getListAppartements(): Observable<ListAppartements> {
-    return this.#http.get<ListAppartements>(this.#APPARTEMENTS_API_URL);
-  }
   updateAppartement(appartement: any) {
     return this.#http.put(`${this.#APPARTEMENTS_API_URL}/${appartement.id}`, appartement);
   }
@@ -64,9 +61,6 @@ export class LocatairesJsonServerService implements LocatairesService {
     });
 
     return of(result);
-  }
-  addAppartement(appartement: Omit<Appartement, "id">): Observable<any> {
-    return this.#http.post(this.#APPARTEMENTS_API_URL,appartement);
   }
 
 }
