@@ -99,7 +99,7 @@ export class LocatairesFirebaseCloudstoreService {
                 picture: docSnapshot.data()['picture'],
                 idAppartement: docSnapshot.data()['appartementId'],
                 numAppartement: docSnapshot.data()['numeroAppartement'],
-                paiments: null,
+                paiements: [],
                 created: docSnapshot.data()['created'].toDate(),
             }
             console.log("document finded!");

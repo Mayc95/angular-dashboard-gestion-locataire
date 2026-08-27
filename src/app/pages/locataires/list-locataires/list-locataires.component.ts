@@ -141,6 +141,7 @@ export class ListLocatairesComponent {
     this.#locatairesServices.getLocataireById(idlocataire).subscribe({
       next: (value) => {
         console.log('locataire :', value);
+        console.log('locataire paiement: ', value.paiements)
         if (value == undefined) {
           this.showDetailsLocataireModalError.set(true);
         } else {

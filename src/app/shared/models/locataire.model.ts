@@ -23,7 +23,7 @@ export interface LocataireDetails {
   id: string;
   idAppartement:string;
   numAppartement:number;
-  paiments: undefined | null | [];
+  paiements: any[];
   nom: string;
   prenoms: string;
   phone: string;
