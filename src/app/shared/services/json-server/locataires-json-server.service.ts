@@ -1,8 +1,7 @@
+import { ListLocatairesObject, Locataire, LocataireDetails } from './../../models/locataire.model';
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { ListLocataires, Locataire } from "../../models/locataire.model";
-import { LocatairesService } from "../locataires.service";
 
 @Injectable({
   providedIn: "root",
@@ -16,19 +15,19 @@ export class LocatairesJsonServerService {
   updateAppartement(appartement: any) {
     return this.#http.put(`${this.#APPARTEMENTS_API_URL}/${appartement.id}`, appartement);
   }
-  getListLocataires(): Observable<ListLocataires> {
-    return this.#http.get<ListLocataires>(this.#LOCATAIRES_API_URL);
+  getListLocataires(): Observable<ListLocatairesObject> {
+    return this.#http.get<ListLocatairesObject>(this.#LOCATAIRES_API_URL);
   }
 
   getLocataireById(idlocataire: string) {
-    return this.#http.get<Locataire>(`${this.#LOCATAIRES_API_URL}/${idlocataire}`);
+    return this.#http.get<LocataireDetails>(`${this.#LOCATAIRES_API_URL}/${idlocataire}`);
   }
 
-  updateLocataire(locataire: Locataire) {
+  updateLocataire(locataire: LocataireDetails) {
     return this.#http.patch(`${this.#LOCATAIRES_API_URL}/${locataire.id}`, locataire);
   }
 
-  deleteLocataireById(locataire: Locataire) {
+  deleteLocataireById(locataire: LocataireDetails) {
     return this.#http.delete(`${this.#LOCATAIRES_API_URL}/${locataire.id}`);
   }
 
@@ -45,11 +44,11 @@ export class LocatairesJsonServerService {
         }
         this.updateAppartement(newAppartementData).subscribe({
           next: () => {
-            console.log("succes mise a jour des donnees de appartement id=" + locataire.appartementId + " apres creation du locataire id:" + newLocataire.id);
+            console.log("succes mise a jour des donnees de appartement id=" + locataire.idAppartement + " apres creation du locataire id:" + newLocataire.id);
             result = true;
           },
           error: (erreur) => {
-            console.log("erreur lors de la mise a jour des donnees de appartement id=" + locataire.appartementId + " apres creation du locataire nom:" + locataire.nom);
+            console.log("erreur lors de la mise a jour des donnees de appartement id=" + locataire.idAppartement + " apres creation du locataire nom:" + locataire.nom);
             console.log(erreur);
           }
         })

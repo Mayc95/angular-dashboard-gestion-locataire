@@ -7,17 +7,18 @@ import { PaiementsService } from './shared/services/paiements.service';
 import { environment } from '../environments/environment.development';
 import { PaiementsJsonServerService } from './shared/services/json-server/paiements-json-server.service';
 import { PaiementsFirebaseCloudstoreService } from './shared/services/firebase-cloudstore/paiements-firebase-cloudstore.service';
-import { LocatairesService } from './shared/services/locataires.service';
+import { LocatairesService } from './shared/services/locataire.service';
 import { LocatairesFirebaseCloudstoreService } from './shared/services/firebase-cloudstore/locataires-firebase-cloudstore.service';
 import { LocatairesJsonServerService } from './shared/services/json-server/locataires-json-server.service';
 import { AppartementService } from './shared/services/appartement.service';
 import { AppartementApiService } from './shared/services/api/appartement-api.service';
+import { LocataireApiService } from './shared/services/api/locataire-api.service';
 
 export function paiementsServiceFactory(): PaiementsService {
   return new PaiementsFirebaseCloudstoreService();
 }
 export function locatairesServiceFactory(): LocatairesService {
-  return new LocatairesFirebaseCloudstoreService();
+  return new LocataireApiService();
 }
 export function appartementsServiceFactory(): AppartementService {
   return new AppartementApiService();

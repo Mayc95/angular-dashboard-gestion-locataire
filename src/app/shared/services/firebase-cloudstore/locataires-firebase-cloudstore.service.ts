@@ -1,7 +1,6 @@
 import { ListAppartement } from './../../models/appartement.model';
-import { filter, from, map, Observable, of } from "rxjs";
-import { ListLocataires, Locataire } from "../../models/locataire.model";
-import { LocatairesService } from "../locataires.service";
+import { from, map, Observable, of } from "rxjs";
+import { ListLocatairesObject, Locataire, LocataireDetails } from "../../models/locataire.model";
 
 import { app, db } from "../../../firebase/firebase";
 import { Injectable } from "@angular/core";
@@ -87,7 +86,7 @@ export class LocatairesFirebaseCloudstoreService {
     async getLocataireDoc(id: string) {
         const docRef = doc(db, 'locataires', id);
         const docSnapshot = await getDoc(docRef);
-        let locataire: Locataire | undefined = undefined;
+        let locataire: LocataireDetails | undefined = undefined;
         if (docSnapshot.exists()) {
             console.log("doc data:");
             console.log(docSnapshot.data());
@@ -98,8 +97,9 @@ export class LocatairesFirebaseCloudstoreService {
                 email: docSnapshot.data()['email'],
                 phone: docSnapshot.data()['phone'],
                 picture: docSnapshot.data()['picture'],
-                appartementId: docSnapshot.data()['appartementId'],
-                numeroAppartement: docSnapshot.data()['numeroAppartement'],
+                idAppartement: docSnapshot.data()['appartementId'],
+                numAppartement: docSnapshot.data()['numeroAppartement'],
+                paiments: null,
                 created: docSnapshot.data()['created'].toDate(),
             }
             console.log("document finded!");
@@ -121,7 +121,7 @@ export class LocatairesFirebaseCloudstoreService {
             return false;
         }
     }
-    async updateLocataireDoc(locataire: Locataire) {
+    async updateLocataireDoc(locataire: LocataireDetails) {
         try {
             const docRef = doc(db, 'locataires', locataire.id);
             await updateDoc(docRef, {
@@ -129,8 +129,8 @@ export class LocatairesFirebaseCloudstoreService {
                 prenoms: locataire.prenoms,
                 phone: locataire.phone,
                 email: locataire.email,
-                appartementId: locataire.appartementId,
-                numeroAppartement: locataire.numeroAppartement
+                appartementId: locataire.idAppartement,
+                numeroAppartement: locataire.numAppartement
             });
             return true;
         } catch (erreur) {
@@ -150,7 +150,7 @@ export class LocatairesFirebaseCloudstoreService {
         }
     }
 
-    getListLocataires(): Observable<ListLocataires> {
+    getListLocataires(): Observable<any> {
         return from(this.getAllLocatairesDoc()).pipe(map(list => list));
     }
     getListAppartements(): Observable<ListAppartement> {
@@ -159,10 +159,10 @@ export class LocatairesFirebaseCloudstoreService {
     getLocataireById(idlocataire: string): Observable<any> {
         return from(this.getLocataireDoc(idlocataire)).pipe(map(snap => snap));
     }
-    updateLocataire(locataire: Locataire): Observable<any> {
+    updateLocataire(locataire: LocataireDetails): Observable<any> {
         return from(this.updateLocataireDoc(locataire)).pipe(map(snap => snap));
     }
-    deleteLocataireById(locataire: Locataire): Observable<any> {
+    deleteLocataireById(locataire: LocataireDetails): Observable<any> {
         //return from(this.deleteLocataireDoc(idlocataire)).pipe(map(snap => snap));
         let result = false;
         this.deleteLocataireDoc(locataire.id)
@@ -170,7 +170,7 @@ export class LocatairesFirebaseCloudstoreService {
                 if (locataireIsDeleted) {
                     // update data of appartement
                     let appartToUpdate = {
-                        id: locataire.appartementId,
+                        id: locataire.idAppartement,
                         locataireId: '',
                         nomCompletLocataire: ''
                     }
@@ -194,13 +194,13 @@ export class LocatairesFirebaseCloudstoreService {
 
         return of(result);
     }
-    addLocataire(locataire: Omit<Locataire, "id">): Observable<any> {
+    addLocataire(locataire: LocataireDetails): Observable<any> {
         let result = false;
         this.addLocataireDoc(locataire)
             .then((idlocataire) => {
                 if (typeof (idlocataire) == "string" && idlocataire.length > 0) {
                     let appartToUpdate = {
-                        id: locataire.appartementId,
+                        id: locataire.idAppartement,
                         locataireId: idlocataire,
                         nomCompletLocataire: locataire.nom + " " + locataire.prenoms
                     }
@@ -224,7 +224,7 @@ export class LocatairesFirebaseCloudstoreService {
 
         return of(result);
     }
-    addAppartement(appartement: Omit<Appartement, "id">) {
+    addAppartement(appartement: Appartement) {
         return from(this.addAppartementDoc(appartement)).pipe(map(value => value));
     }
 }

@@ -1,6 +1,5 @@
-import { getDoc } from 'firebase/firestore';
-import { Locataire, ListLocataires } from './../../../shared/models/locataire.model';
-import { Component, computed, effect, inject, OnInit, signal } from "@angular/core";
+import { Locataire, LocataireDetails } from './../../../shared/models/locataire.model';
+import { Component, computed, inject, signal } from "@angular/core";
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ModalComponent } from "../../../shared/components/ui/modal/modal.component";
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
@@ -11,9 +10,7 @@ import { map, catchError } from 'rxjs/operators';
 import { NotFoundComponent } from '../../other-page/not-found/not-found.component';
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
 import { RouterLink } from "@angular/router";
-import { LocatairesJsonServerService } from '../../../shared/services/json-server/locataires-json-server.service';
-import { LocatairesService } from '../../../shared/services/locataires.service';
-import { LocatairesFirebaseCloudstoreService } from '../../../shared/services/firebase-cloudstore/locataires-firebase-cloudstore.service';
+import { LocatairesService } from '../../../shared/services/locataire.service';
 import { LIST_ETAGE, LIST_PORTE } from '../../../shared/models/appartement.model';
 
 @Component({
@@ -36,7 +33,7 @@ export class ListLocatairesComponent {
   readonly #locatairesServices = inject(LocatairesService);
 
   readonly #listLocatairesResponse = toSignal(
-    this.#locatairesServices.getListLocataires().pipe(
+    this.#locatairesServices.getLocataires().pipe(
       map((list) => ({ value: list, error: undefined })),
       catchError((error) => of({ value: undefined, error: error }))
     )
@@ -62,7 +59,7 @@ export class ListLocatairesComponent {
           return l;
         }
         // on cherche dans la colonne appartement du tableau
-        if (`Appartement ${l.appartementId}`.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if (`Appartement ${l.idAppartement}`.toLowerCase().includes(searchedWord.toLowerCase())) {
           return l;
         }
         // on cherche dans la colonne contact du tableau
@@ -111,7 +108,7 @@ export class ListLocatairesComponent {
       let selectedLocataire = this.listLocataires()?.find(locataire => locataire.id == this.selectedLocataireId);
 
       if (selectedLocataire) {
-        this.#locatairesServices.deleteLocataireById(selectedLocataire).subscribe({
+        this.#locatairesServices.deleteLocataireById(selectedLocataire.id).subscribe({
           next: () => {
             console.log('locataire with id: ' + this.selectedLocataireId + " is deleted");
             this.listLocataires()?.splice(indexOfSelectedLocataireInListLocataires ?? -1, 1);
@@ -133,7 +130,7 @@ export class ListLocatairesComponent {
 
 
   // for update locataire modal
-  selectedLocataire = signal<Locataire | undefined>(undefined);
+  selectedLocataire = signal<LocataireDetails | undefined>(undefined);
   showDetailsLocataireModalLoading = signal(false);
   showDetailsLocataireModalError = signal(false);
   showDetailsLocataireModalIsOpen = false;
@@ -141,31 +138,8 @@ export class ListLocatairesComponent {
     this.showDetailsLocataireModalIsOpen = true;
     this.showDetailsLocataireModalLoading.set(true);
 
-    /*
-    this.#LocatairefirestoreService.getDoc("2ay3Juf9RAGxaybiwK9I").
-      then((value) => {
-        this.showDetailsLocataireModalLoading.set(false);
-        console.log('locataire :', value);
-        if (value == undefined) {
-          this.showDetailsLocataireModalError.set(true);
-        } else {
-          this.selectedLocataire.set(value);
-          this.showDetailsLocataireModalError.set(false);
-        }
-      }).
-      catch((error) => {
-        this.showDetailsLocataireModalLoading.set(false);
-        console.error('Une erreur est survenue :', error);
-        this.selectedLocataire.set(undefined);
-        this.showDetailsLocataireModalError.set(true);
-      }).finally(() => {
-        this.showDetailsLocataireModalLoading.set(false);
-      });
-*/
-
     this.#locatairesServices.getLocataireById(idlocataire).subscribe({
       next: (value) => {
-        debugger;
         console.log('locataire :', value);
         if (value == undefined) {
           this.showDetailsLocataireModalError.set(true);
@@ -175,7 +149,6 @@ export class ListLocatairesComponent {
         }
       },
       error: (error) => {
-        debugger;
         console.error('Une erreur est survenue :', error);
         this.selectedLocataire.set(undefined);
         this.showDetailsLocataireModalError.set(true);
@@ -185,9 +158,8 @@ export class ListLocatairesComponent {
         this.showDetailsLocataireModalLoading.set(false);
       }
     })
-
-
   }
+
   closeUpdateDetailsLocataireModal() {
     this.selectedLocataire.set(undefined);
     this.showDetailsLocataireModalLoading.set(false);

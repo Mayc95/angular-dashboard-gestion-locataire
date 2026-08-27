@@ -138,8 +138,10 @@ export class ListAppartementsComponent {
     this.addAppartementModalLoading.set(true);
 
     this.#appartementService.addAppartement(this.newAppartement).subscribe({
-      next: () => {
+      next: (appart) => {
+        const appartement = appart as AppartementDetails;
         this.searchedWord.set("");
+        this.listAppartements()?.push(appartement);
         this.closeAddAppartementModal();
       },
       error: (error) => {

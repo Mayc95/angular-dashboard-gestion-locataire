@@ -113,7 +113,7 @@
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Appartement No :</span>
           <span class="font-semibold text-gray-800">{{
-            locataire.numeroAppartement }}</span>
+            locataire.numAppartement }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Contact :</span>
@@ -164,7 +164,7 @@
 
       }
     </div>
-    
+
     <!-- Sur desktop -->
     <table class="hidden md:block md:w-full min-w-full">
       <!-- Table Header -->
@@ -214,7 +214,7 @@
           </td>
           <td
             class="px-6 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            Appartement {{ locataire.numeroAppartement }}
+            Appartement {{ locataire.numAppartement }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -393,13 +393,13 @@
     <div class="px-2 pr-14">
       <h4
         class="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-        Modifier les informations du locataire
+        Voir les informations du locataire
       </h4>
 
       <p class="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-        Vous pouvez voir ou modifier les informations du locataire ici. Pour
-        enregistrer les modifications veuillez cliquer sur le bouton
-        "Sauvegarder"
+        Vous pouvez voir les informations du locataire ici. Pour
+        ajouter des modifications veuillez cliquer sur le bouton
+        "Modifier"
       </p>
     </div>
 
@@ -458,13 +458,26 @@
       </div>
     </div>
 
-    <div class="w-full">
-      <app-label>Numero Appartement</app-label>
+    <div class="flex justify-between gap-2 mb-3">
+      <div class="w-1/2">
+        <app-label>Numero Appartement</app-label>
+        <app-input-field
+          type="text"
+          id="prenoms"
+          [(value)]="locataire.numAppartement"
+          [disabled]="true" />
+      </div>
+
+       
+    <div class="w-1/2">
+      <app-label>Paiements effectues</app-label>
       <app-input-field
         type="text"
         id="prenoms"
-        [(value)]="locataire.numeroAppartement"
+        [value]="locataire.paiments==null && locataire.paiments==undefined ? 0 : locataire.paiments.length"
         [disabled]="true" />
+    </div>
+   
     </div>
 
     <div class="flex items-center gap-3 px-2 mt-6 lg:justify-end">

@@ -5,14 +5,15 @@ import { ComponentCardComponent } from "../../../shared/components/common/compon
 import { LabelComponent } from "../../../shared/components/form/label/label.component";
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
-import { Locataire } from "../../../shared/models/locataire.model";
+import { Locataire, LocataireDetails } from "../../../shared/models/locataire.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { catchError, delay, map, of } from "rxjs";
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
 import { SelectComponent } from "../../../shared/components/form/select/select.component";
-import { LocatairesService } from '../../../shared/services/locataires.service';
+import { LocatairesService } from '../../../shared/services/locataire.service';
 import { LIST_ETAGE, LIST_PORTE } from '../../../shared/models/appartement.model';
+import { AppartementService } from '../../../shared/services/appartement.service';
 
 @Component({
   selector: "app-edit-locataire",
@@ -32,6 +33,7 @@ export class EditLocataireComponent {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #locatairesService = inject(LocatairesService);
+  readonly #appartementService = inject(AppartementService);
 
   readonly formfieldsValidationService = inject(FormfieldsValidationService);
   readonly LIST_ETAGE_OPTIONS = LIST_ETAGE;
@@ -46,31 +48,31 @@ export class EditLocataireComponent {
     )
   );
   
-  updatedLocataire: Locataire | undefined = undefined;
+  updatedLocataire: LocataireDetails | undefined = undefined;
   readonly locataire = computed(() => {
     if(this.#locataireResponse() && this.#locataireResponse()?.value) {
       this.updatedLocataire = this.#locataireResponse()?.value
     }
     return this.#locataireResponse()?.value
   });
-  readonly selectedAppartementId = computed(() => this.#locataireResponse()?.value?.appartementId.toString() ?? '');
+  readonly selectedAppartementId = computed(() => this.#locataireResponse()?.value?.idAppartement.toString() ?? '');
   readonly loading = computed(() => this.#locataireResponse() == undefined);
   readonly error = computed(() => this.#locataireResponse()?.error);
 
   
-  // readonly #listAppartmentResponse = toSignal(
-  //   this.#locatairesService.getListAppartements().pipe(
-  //     map((value) => ({value:value, error:undefined})),
-  //     catchError(() => of({value:undefined, error:true}))
-  //   )
-  // )
-  // readonly loadingSelectAppartementOption = computed(() => this.#listAppartmentResponse() == undefined);
-  // readonly listAppartementOptions = computed(() => this.#listAppartmentResponse()?.value?.filter((app) => (
-  //   app.locataireId.trim().length <= 0 && app.nomCompletLocataire.trim().length <= 0
-  // )).map((appartement) => ({
-  //     value: appartement.id,
-  //     label: `${appartement.num}`
-  //   })) || []);
+  readonly #listAppartmentResponse = toSignal(
+    this.#appartementService.getListAppartement().pipe(
+      map((value) => ({value:value, error:undefined})),
+      catchError(() => of({value:undefined, error:true}))
+    )
+  )
+  readonly loadingSelectAppartementOption = computed(() => this.#listAppartmentResponse() == undefined);
+  readonly listAppartementOptions = computed(() => this.#listAppartmentResponse()?.value?.filter((appart) => (
+    appart.idLocataire == null && appart.nomLocataire == null
+  )).map((appartement) => ({
+      value: appartement.id,
+      label: `${appartement.num}`
+    })) || []);
 
 
   readonly showLoadingOnSubmitForm = signal(false);
@@ -102,12 +104,8 @@ export class EditLocataireComponent {
       // Verification des champs du formulaire
     const message =
       this.formfieldsValidationService.check(
-        !this.updatedLocataire.appartementId.trim(),
+        !this.updatedLocataire.idAppartement.trim(),
         "Veuillez sélectionner un appartement"
-      ) ??
-      this.formfieldsValidationService.check(
-        this.updatedLocataire.numeroAppartement<=0,
-        "Veuillez selectionner un appartement"
       ) ??
       this.formfieldsValidationService.check(
         !this.updatedLocataire.nom.trim(),
@@ -137,9 +135,8 @@ export class EditLocataireComponent {
     console.log(this.updatedLocataire);
 
     this.showLoadingOnSubmitForm.set(true);
-    debugger;
 
-      this.#locatairesService.updateLocataire(this.updatedLocataire).pipe(delay(5000)).subscribe({
+      this.#locatairesService.updateLocataire(this.updatedLocataire.id, this.updatedLocataire).pipe(delay(5000)).subscribe({
         next: () => {
           this.showLoadingOnSubmitForm.set(false);
           this.showErrorAlertOnSubmitForm.set(false);

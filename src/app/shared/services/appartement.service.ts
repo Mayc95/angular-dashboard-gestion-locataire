@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 export abstract class AppartementService {
     abstract getListAppartement(): Observable<ListAppartementDetails>;
     abstract getAppartementById(id: string): Observable<AppartementDetails>;
-    abstract updateAppartement(id:string, appartement: Appartement): Observable<Appartement>;
+    abstract updateAppartement(id:string, appartement: Appartement): Observable<AppartementDetails>;
     abstract deleteAppartementById(id:string): Observable<any>;
     abstract addAppartement(appartement: Appartement): Observable<Appartement>;
 }

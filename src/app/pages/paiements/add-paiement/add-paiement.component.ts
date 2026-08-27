@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { FormfieldsValidationService } from '../../../shared/services/formfields.validation.service';
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
 import { Locataire } from '../../../shared/models/locataire.model';
-import { LocatairesService } from '../../../shared/services/locataires.service';
+import { LocatairesService } from '../../../shared/services/locataire.service';
 import { PaiementsService } from '../../../shared/services/paiements.service';
 
 
@@ -40,13 +40,13 @@ export class AddPaiementComponent {
   readonly router = inject(Router);
   readonly formfieldsValidationService = inject(FormfieldsValidationService);
 
-  readonly #listLocataire = toSignal(this.#locataireService.getListLocataires().pipe(
-    delay(5000),
-    map((list) => ({ value: list, error: undefined })),
-    catchError((error) => of({ value: undefined, error: error }))
-  ));
+  // readonly #listLocataire = toSignal(this.#locataireService.getListLocataires().pipe(
+  //   delay(5000),
+  //   map((list) => ({ value: list, error: undefined })),
+  //   catchError((error) => of({ value: undefined, error: error }))
+  // ));
 
-  readonly hideSelectedLocataireInput = computed(() => this.#listLocataire() == undefined);
+  // readonly hideSelectedLocataireInput = computed(() => this.#listLocataire() == undefined);
   //readonly listLocataire = computed(() => this.#listLocataire()?.value);
   readonly error = signal(false);
   readonly showLoading = signal(false);
@@ -64,23 +64,23 @@ export class AddPaiementComponent {
   }
 
   // for select Locataire
-  readonly listLocataireOptions = computed(() => this.#listLocataire()?.value?.map((locataire) => ({ value: locataire.id.toString(), label: `${locataire.nom} ${locataire.prenoms}` })) || []);
-  handleSelectLocataireChange(value: string) {
-    console.log('list locataire:');
-    console.dir(this.#listLocataire()?.value);
-    let list = this.#listLocataire()?.value;
-    if(list!=undefined) {
-      let selectedLocataire:Locataire|undefined = list.find((lc) => lc.id==value);
-      if(selectedLocataire) {
-        this.newPaiement.locataireId = selectedLocataire.id;
-        this.newPaiement.nomCompletLocataire = selectedLocataire.nom+" "+selectedLocataire.prenoms;
-        this.newPaiement.numeroAppartement = selectedLocataire.numeroAppartement;
-      }
-    }
+  // readonly listLocataireOptions = computed(() => this.#listLocataire()?.value?.map((locataire) => ({ value: locataire.id.toString(), label: `${locataire.nom} ${locataire.prenoms}` })) || []);
+  // handleSelectLocataireChange(value: string) {
+  //   console.log('list locataire:');
+  //   console.dir(this.#listLocataire()?.value);
+  //   let list = this.#listLocataire()?.value;
+  //   if(list!=undefined) {
+  //     let selectedLocataire:Locataire|undefined = list.find((lc) => lc.id==value);
+  //     if(selectedLocataire) {
+  //       this.newPaiement.locataireId = selectedLocataire.id;
+  //       this.newPaiement.nomCompletLocataire = selectedLocataire.nom+" "+selectedLocataire.prenoms;
+  //       this.newPaiement.numeroAppartement = selectedLocataire.numeroAppartement;
+  //     }
+  //   }
     
-    this.newPaiement.locataireId = value;
-    console.log('Selected Locataire value:', value);
-  }
+  //   this.newPaiement.locataireId = value;
+  //   console.log('Selected Locataire value:', value);
+  // }
 
   // for input Montant
   handleMontantChange(value:string) {
