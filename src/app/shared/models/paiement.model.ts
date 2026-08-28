@@ -1,19 +1,28 @@
-import { Locataire } from "./locataire.model";
 
-export interface Paiement {
+export interface PaiementDetails {
   id: string;
-  locataireId: string;
+  idLocataire: string;
+  nomLocataire: string;
+  idAppartement: string,
+  numAppartement:number;
   montant: string;
   mois: string;
   statut:string;
   datePaiement:Date;
   created: Date;
-  nomCompletLocataire:string;
-  numeroAppartement:number;
 };
-export type ListPaiements = Paiement[];
+
+export interface Paiement {
+  idLocataire: string;
+  montant: string;
+  mois: string;
+  statut:string;
+  datePaiement:Date;
+}
+
+export type ListPaiementsDetails = PaiementDetails[];
 
 export const LIST_STATUT_PAIEMENT = [
-    { value: '0', label: 'EN COURS' },
-    { value: '1', label: 'VALIDER' },
+    { value: 'EN COURS', label: 'EN COURS' },
+    { value: 'VALIDER', label: 'VALIDER' },
 ];

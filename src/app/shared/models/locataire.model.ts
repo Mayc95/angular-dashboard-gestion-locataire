@@ -1,3 +1,5 @@
+import { Paiement, PaiementDetails } from "./paiement.model";
+
 export interface Locataire {
   idAppartement: string;
   nom: string;

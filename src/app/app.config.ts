@@ -13,9 +13,10 @@ import { LocatairesJsonServerService } from './shared/services/json-server/locat
 import { AppartementService } from './shared/services/appartement.service';
 import { AppartementApiService } from './shared/services/api/appartement-api.service';
 import { LocataireApiService } from './shared/services/api/locataire-api.service';
+import { PaiementApiService } from './shared/services/api/paiement-api.service';
 
 export function paiementsServiceFactory(): PaiementsService {
-  return new PaiementsFirebaseCloudstoreService();
+  return new PaiementApiService();
 }
 export function locatairesServiceFactory(): LocatairesService {
   return new LocataireApiService();

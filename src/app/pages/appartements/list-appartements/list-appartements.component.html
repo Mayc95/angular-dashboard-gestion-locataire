@@ -102,6 +102,11 @@
         }
       </div>
 
+      } @empty {
+      <div
+        class="w-full flex flex-row justify-center items-center text-center mb-4">
+        <h1 class="w-full text-center">Aucun appartement disponible</h1>
+      </div>
       }
     </div>
 
@@ -157,7 +162,8 @@
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
             {{
-            (appartement.idLocataire != null && appartement.nomLocataire != null)
+            (appartement.idLocataire != null && appartement.nomLocataire !=
+            null)
             ? appartement.nomLocataire
             : "AUCUN"
             }}
@@ -214,6 +220,11 @@
                 </td>
                 -->
         </tr>
+        } @empty {
+        <div
+          class="w-full flex flex-row justify-center items-center text-center mb-4">
+          <h1 class="w-full text-center">Aucun appartement disponible</h1>
+        </div>
         }
       </tbody>
     </table>

@@ -5,7 +5,7 @@ import { ButtonComponent } from "../../../shared/components/ui/button/button.com
 import { LabelComponent } from "../../../shared/components/form/label/label.component";
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Paiement } from '../../../shared/models/paiement.model';
+import { PaiementDetails } from '../../../shared/models/paiement.model';
 import { catchError, map, of } from 'rxjs';
 import { NotFoundComponent } from '../../other-page/not-found/not-found.component';
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
@@ -33,7 +33,7 @@ export class ListPaiementsComponent {
   readonly #listPaiementsDetailsResponse = toSignal(
     this.#paiementsService.getListPaiements().pipe(
       map((list) => ({ value: list, error: undefined })),
-      catchError((error) => of({ value: undefined, error: error }))
+      catchError(() => of({ value: undefined, error: true }))
     )
   );
 
@@ -48,7 +48,7 @@ export class ListPaiementsComponent {
     if (list != undefined && searchedWord.trim().length > 0) {
       return list.filter((paiement) => {
         // on cherche dans la colonne nom et prenoms du locataire dans le tableau
-        if(paiement.nomCompletLocataire.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if(paiement.nomLocataire.toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;
         }
         // on cherche dans la colonne montant du tableau
@@ -74,8 +74,8 @@ export class ListPaiementsComponent {
 
 
   getBadgeColor(status: string): 'success' | 'warning' | 'error' {
-    if (status === '1') return 'success';
-    if (status === '0') return 'warning';
+    if (status === 'valider') return 'success';
+    if (status === 'en cours') return 'warning';
     return 'error';
   }
 
@@ -121,7 +121,7 @@ export class ListPaiementsComponent {
   }
 
   // for show paiement modal
-  selectedPaiement = signal<Paiement | undefined>(undefined);
+  selectedPaiement = signal<PaiementDetails | undefined>(undefined);
   showModalLoading = signal(false);
   modalError = signal(false);
   showPaiementModalIsOpen = false;

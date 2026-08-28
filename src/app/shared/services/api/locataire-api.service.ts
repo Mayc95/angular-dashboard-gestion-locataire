@@ -5,10 +5,10 @@ import { LocatairesService } from '../locataire.service';
 import { ListLocatairesObject, LocataireDetails, Locataire } from '../../models/locataire.model';
 
 @Injectable({
-    providedIn:"root"
+    providedIn: "root"
 })
 export class LocataireApiService implements LocatairesService {
-       readonly #LOCATAIRES_API_URL = 'http://localhost:8080/locataires';
+    readonly #LOCATAIRES_API_URL = 'http://localhost:8080/locataires';
     readonly #http = inject(HttpClient);
 
     getLocataires(): Observable<ListLocatairesObject> {
@@ -22,7 +22,7 @@ export class LocataireApiService implements LocatairesService {
     addLocataire(locataire: Locataire): Observable<LocataireDetails> {
         return this.#http.post<LocataireDetails>(this.#LOCATAIRES_API_URL, locataire);
     }
-    
+
     updateLocataire(id: string, locataire: Locataire): Observable<LocataireDetails> {
         return this.#http.put<LocataireDetails>(`${this.#LOCATAIRES_API_URL}/${id}`, locataire);
     }

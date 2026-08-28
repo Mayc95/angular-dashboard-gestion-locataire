@@ -1,27 +1,28 @@
 import { from, map, Observable, of } from "rxjs";
-import { ListPaiements, Paiement } from "../../models/paiement.model";
+import { ListPaiementsDetails, Paiement, PaiementDetails } from "../../models/paiement.model";
 import { PaiementsService } from "../paiements.service";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase/firebase";
 
-export class PaiementsFirebaseCloudstoreService implements PaiementsService {
+export class PaiementsFirebaseCloudstoreService {
 
     private paiementsCollectionRef = collection(db, 'paiements');
 
 
     async getAllPaiementsDocs() {
-        let allPaiementsDocs: ListPaiements = [];
+        let allPaiementsDocs: ListPaiementsDetails = [];
         try {
             const snapshot = await getDocs(this.paiementsCollectionRef);
             snapshot.docs.map((doc) => {
-                let paiement: Paiement = {
+                let paiement: PaiementDetails = {
                     id: doc.id,
                     montant: doc.data()['montant'],
                     mois: doc.data()['mois'],
                     statut: doc.data()['statut'],
-                    nomCompletLocataire: doc.data()['nomCompletLocataire'],
-                    numeroAppartement: doc.data()['numeroAppartement'],
-                    locataireId: doc.data()['locataireId'],
+                    idLocataire: doc.data()['locataireId'],
+                    nomLocataire: doc.data()['nomCompletLocataire'],
+                    numAppartement: doc.data()['numeroAppartement'],
+                    idAppartement: doc.data()['idAppartement'],
                     datePaiement: doc.data()['datePaiement'].toDate(),
                     created: doc.data()['created'].toDate(),
                 }
@@ -34,7 +35,7 @@ export class PaiementsFirebaseCloudstoreService implements PaiementsService {
         return allPaiementsDocs;
     }
     async getPaiementDoc(id: string) {
-        let paiement: Paiement | undefined = undefined
+        let paiement: PaiementDetails | undefined = undefined
         try {
             const docRef = doc(db, 'paiements', id);
             const snap = await getDoc(docRef);
@@ -44,9 +45,10 @@ export class PaiementsFirebaseCloudstoreService implements PaiementsService {
                     montant: snap.data()['montant'],
                     mois: snap.data()['mois'],
                     statut: snap.data()['statut'],
-                    nomCompletLocataire: snap.data()['nomCompletLocataire'],
-                    numeroAppartement: snap.data()['numeroAppartement'],
-                    locataireId: snap.data()['locataireId'],
+                    nomLocataire: snap.data()['nomCompletLocataire'],
+                    numAppartement: snap.data()['numeroAppartement'],
+                    idAppartement: snap.data()['idAppartement'],
+                    idLocataire: snap.data()['locataireId'],
                     datePaiement: snap.data()['datePaiement'].toDate(),
                     created: snap.data()['created'].toDate(),
                 }
@@ -86,7 +88,7 @@ export class PaiementsFirebaseCloudstoreService implements PaiementsService {
         return result;
     }
 
-    getListPaiements(): Observable<ListPaiements> {
+    getListPaiements(): Observable<ListPaiementsDetails> {
         return from(this.getAllPaiementsDocs()).pipe(map(snap => snap));
     }
     getPaiementById(idpaiement: string): Observable<any> {

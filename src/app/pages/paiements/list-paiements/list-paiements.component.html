@@ -85,7 +85,8 @@
             Filter
           </button>
         </div>
-      --></div>
+      -->
+  </div>
 
   <div class="max-w-full overflow-x-auto">
     <!-- sur mobile -->
@@ -102,12 +103,12 @@
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Locataire :</span>
           <span
-            class="font-semibold text-gray-800">{{paiement.nomCompletLocataire}}</span>
+            class="font-semibold text-gray-800">{{paiement.nomLocataire}}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Appartement :</span>
           <span class="font-semibold text-gray-800"> Appartement No {{
-            paiement.numeroAppartement }}</span>
+            paiement.numAppartement }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Montant (FCFA) :</span>
@@ -120,21 +121,14 @@
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Date du paiement:</span>
-          <span class="font-semibold text-gray-800">{{ paiement.datePaiement | date: "dd/MM/yyyy" }}</span>
+          <span class="font-semibold text-gray-800">{{ paiement.datePaiement |
+            date: "dd/MM/yyyy" }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Statut :</span>
-          @if (paiement.statut == "1") {
           <app-badge
-            size="sm"
-            [color]="getBadgeColor(paiement.statut)">VALIDER</app-badge>
-          }
-
-          @if (paiement.statut == "0") {
-          <app-badge
-            size="sm"
-            [color]="getBadgeColor(paiement.statut)">EN COURS</app-badge>
-          }
+              size="sm"
+              [color]="getBadgeColor(paiement.statut.toLowerCase())">{{paiement.statut.toUpperCase()}}</app-badge>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <div class="flex justify-around w-full">
@@ -180,6 +174,11 @@
         </div>
       </div>
 
+      } @empty {
+      <div
+        class="w-full flex flex-row justify-center items-center text-center mb-4">
+        <h1 class="w-full text-center">Aucun paiement disponible</h1>
+      </div>
       }
     </div>
     <!-- sur desktop -->
@@ -228,11 +227,11 @@
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            {{ paiement.nomCompletLocataire }}
+            {{ paiement.nomLocataire }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            Appartement No {{ paiement.numeroAppartement }}
+            Appartement No {{ paiement.numAppartement }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -248,17 +247,9 @@
           </td>
           <td
             class="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            @if (paiement.statut == "1") {
-            <app-badge
+           <app-badge
               size="sm"
-              [color]="getBadgeColor(paiement.statut)">VALIDER</app-badge>
-            }
-
-            @if (paiement.statut == "0") {
-            <app-badge
-              size="sm"
-              [color]="getBadgeColor(paiement.statut)">EN COURS</app-badge>
-            }
+              [color]="getBadgeColor(paiement.statut.toLowerCase())">{{paiement.statut.toUpperCase()}}</app-badge>
           </td>
           <td
             class="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
@@ -304,6 +295,11 @@
             </div>
           </td>
         </tr>
+        } @empty {
+        <div
+          class="w-full flex flex-row justify-center items-center text-center mb-4">
+          <h1 class="w-full text-center">Aucun paiement disponible</h1>
+        </div>
         }
       </tbody>
     </table>
@@ -452,7 +448,7 @@
           <app-input-field
             type="text"
             id="nomprenoms"
-            [value]="paiement.nomCompletLocataire"
+            [value]="paiement.nomLocataire"
             [disabled]="true" />
         </div>
         <div class="w-1/2">
@@ -460,7 +456,7 @@
           <app-input-field
             type="text"
             id="numappartement"
-            [value]="paiement.numeroAppartement"
+            [value]="paiement.numAppartement"
             [disabled]="true" />
         </div>
       </div>
@@ -498,7 +494,7 @@
           <app-input-field
             type="text"
             id="statut"
-            [value]="paiement.statut == '1' ? 'VALIDER' : 'EN COURS'"
+            [value]="paiement.statut.toUpperCase()"
             [disabled]="true" />
         </div>
       </div>

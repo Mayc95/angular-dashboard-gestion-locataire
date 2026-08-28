@@ -12,7 +12,7 @@ import { catchError, delay, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { FormfieldsValidationService } from '../../../shared/services/formfields.validation.service';
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
-import { Locataire } from '../../../shared/models/locataire.model';
+import { Locataire, LocataireDetails, LocataireListObject } from '../../../shared/models/locataire.model';
 import { LocatairesService } from '../../../shared/services/locataire.service';
 import { PaiementsService } from '../../../shared/services/paiements.service';
 
@@ -40,47 +40,42 @@ export class AddPaiementComponent {
   readonly router = inject(Router);
   readonly formfieldsValidationService = inject(FormfieldsValidationService);
 
-  // readonly #listLocataire = toSignal(this.#locataireService.getListLocataires().pipe(
-  //   delay(5000),
-  //   map((list) => ({ value: list, error: undefined })),
-  //   catchError((error) => of({ value: undefined, error: error }))
-  // ));
+  readonly #listLocataire = toSignal(this.#locataireService.getLocataires().pipe(
+    delay(5000),
+    map((list) => ({ value: list, error: undefined })),
+    catchError((error) => of({ value: undefined, error: error }))
+  ));
 
-  // readonly hideSelectedLocataireInput = computed(() => this.#listLocataire() == undefined);
-  //readonly listLocataire = computed(() => this.#listLocataire()?.value);
+  readonly hideSelectedLocataireInput = computed(() => this.#listLocataire() == undefined);
+  readonly listLocataire = computed(() => this.#listLocataire()?.value);
   readonly error = signal(false);
   readonly showLoading = signal(false);
   errorMessage = signal("");
 
-  newPaiement:Omit<Paiement,'id'> = {
-    locataireId: '',
-    nomCompletLocataire:'',
-    numeroAppartement:0,
+  newPaiement:Paiement = {
+    idLocataire: '',
     montant: '',
     mois: '',
     statut: '',
     datePaiement: new Date(),
-    created: new Date(),
   }
 
   // for select Locataire
-  // readonly listLocataireOptions = computed(() => this.#listLocataire()?.value?.map((locataire) => ({ value: locataire.id.toString(), label: `${locataire.nom} ${locataire.prenoms}` })) || []);
-  // handleSelectLocataireChange(value: string) {
-  //   console.log('list locataire:');
-  //   console.dir(this.#listLocataire()?.value);
-  //   let list = this.#listLocataire()?.value;
-  //   if(list!=undefined) {
-  //     let selectedLocataire:Locataire|undefined = list.find((lc) => lc.id==value);
-  //     if(selectedLocataire) {
-  //       this.newPaiement.locataireId = selectedLocataire.id;
-  //       this.newPaiement.nomCompletLocataire = selectedLocataire.nom+" "+selectedLocataire.prenoms;
-  //       this.newPaiement.numeroAppartement = selectedLocataire.numeroAppartement;
-  //     }
-  //   }
+  readonly listLocataireOptions = computed(() => this.#listLocataire()?.value?.map((locataire) => ({ value: locataire.id.toString(), label: `${locataire.nom} ${locataire.prenoms}` })) || []);
+  handleSelectLocataireChange(value: string) {
+    console.log('list locataire:');
+    console.dir(this.#listLocataire()?.value);
+    let list = this.#listLocataire()?.value;
+    if(list!=undefined) {
+      let selectedLocataire:LocataireListObject|undefined = list.find((lc) => lc.id==value);
+      if(selectedLocataire) {
+        this.newPaiement.idLocataire = selectedLocataire.id;
+      }
+    }
     
-  //   this.newPaiement.locataireId = value;
-  //   console.log('Selected Locataire value:', value);
-  // }
+    this.newPaiement.idLocataire = value;
+    console.log('Selected Locataire value:', value);
+  }
 
   // for input Montant
   handleMontantChange(value:string) {
@@ -115,20 +110,17 @@ export class AddPaiementComponent {
     console.dir(this.newPaiement);
 
     const paiement: Omit<Paiement,'id'> = {
-        locataireId: this.newPaiement.locataireId,
-        nomCompletLocataire:this.newPaiement.nomCompletLocataire,
-        numeroAppartement:this.newPaiement.numeroAppartement,
+        idLocataire: this.newPaiement.idLocataire,
         montant: this.newPaiement.montant,
         mois: this.newPaiement.mois,
         statut: this.newPaiement.statut,
         datePaiement: this.newPaiement.datePaiement,
-        created: new Date(),
       }
 
     // Verification des champs du formulaire
     const message =
       this.formfieldsValidationService.check(
-        !paiement.locataireId.trim(),
+        !paiement.idLocataire.trim(),
         "Veuillez sélectionner un locataire"
       ) ??
       this.formfieldsValidationService.check(

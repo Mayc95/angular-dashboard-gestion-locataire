@@ -162,6 +162,11 @@
         </div>
       </div>
 
+      } @empty {
+      <div
+        class="w-full flex flex-row justify-center items-center text-center mb-4">
+        <h1 class="w-full text-center">Aucun locataire disponible</h1>
+      </div>
       }
     </div>
 
@@ -263,6 +268,11 @@
             </div>
           </td>
         </tr>
+        } @empty {
+        <div
+          class="w-full flex flex-row justify-center items-center text-center mb-4">
+          <h1 class="w-full text-center">Aucun locataire disponible</h1>
+        </div>
         }
       </tbody>
     </table>
@@ -468,16 +478,15 @@
           [disabled]="true" />
       </div>
 
-       
-    <div class="w-1/2">
-      <app-label>Paiements effectues</app-label>
-      <app-input-field
-        type="text"
-        id="prenoms"
-        [value]="locataire.paiements.length"
-        [disabled]="true" />
-    </div>
-   
+      <div class="w-1/2">
+        <app-label>Paiements effectues</app-label>
+        <app-input-field
+          type="text"
+          id="prenoms"
+          [value]="locataire.paiements.length"
+          [disabled]="true" />
+      </div>
+
     </div>
 
     <div class="flex items-center gap-3 px-2 mt-6 lg:justify-end">
