@@ -19,8 +19,21 @@ export class LocataireApiService implements LocatairesService {
         return this.#http.get<LocataireDetails>(`${this.#LOCATAIRES_API_URL}/${id}`);
     }
 
-    addLocataire(locataire: Locataire): Observable<LocataireDetails> {
-        return this.#http.post<LocataireDetails>(this.#LOCATAIRES_API_URL, locataire);
+    addLocataire(locataire: Locataire, photoProfil: File | undefined): Observable<LocataireDetails> {
+        const formData = new FormData();
+        formData.append(
+            'locataire',
+            new Blob(
+                [JSON.stringify(locataire)],
+                { type: 'application/json' }
+            )
+        );
+        
+        if (photoProfil) {
+            formData.append('photo', photoProfil);
+        }
+
+        return this.#http.post<LocataireDetails>(this.#LOCATAIRES_API_URL, formData);
     }
 
     updateLocataire(id: string, locataire: Locataire): Observable<LocataireDetails> {

@@ -1,83 +1,86 @@
 <app-component-card title="Ajouter un locataire">
   @if(showLoading()) {
 
-   <div class="w-full h-full flex justify-center items-center pb-[60px]">
-      <div role="status">
-        <svg
-          aria-hidden="true"
-          class="inline w-20 h-20 text-brand-50 animate-spin fill-brand-500"
-          viewBox="0 0 100 101"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-            fill="currentColor"
-          />
-          <path
-            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-            fill="currentFill"
-          />
-        </svg>
-        <span class="sr-only">Loading...</span>
-      </div>
+  <div class="w-full h-full flex justify-center items-center pb-[60px]">
+    <div role="status">
+      <svg
+        aria-hidden="true"
+        class="inline w-20 h-20 text-brand-50 animate-spin fill-brand-500"
+        viewBox="0 0 100 101"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+          fill="currentColor" />
+        <path
+          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+          fill="currentFill" />
+      </svg>
+      <span class="sr-only">Loading...</span>
     </div>
+  </div>
 
   } @else {
 
-    @if(error()) {
-      <div>
-        <app-alert
-          variant="error"
-          [message]="errorMessage()"
-        ></app-alert>
-      </div>
-    }
+  @if(error()) {
+  <div>
+    <app-alert
+      variant="error"
+      [message]="errorMessage()"></app-alert>
+  </div>
+  }
 
-      <div class="">
+  <div>
+    <div class="w-full flex flex-col gap-1 justify-center items-center mb-6">
+      <div class="p-2 w-[200px] h-[200px]">
+        @if (photoProfilPreview) { <img class="p-1" [src]="photoProfilPreview" /> }
+        @else { <h2>Aucune image selectionner</h2>}
+      </div>
+      <app-label for="photoprofil">Photo de profil</app-label>
+      <input id="photoprofil" name="photoprofil" type="file" accept="image/*" (change)="onChangePhotoProfil($event)" />
+    </div>
+
     <div class="flex justify-between gap-2 mb-3">
       <div class="w-1/2">
         <app-label for="nom">Nom</app-label>
-        <app-input-field type="text" id="nom" [(value)]="newLocataire.nom"/>
+        <app-input-field type="text" id="nom" [(value)]="newLocataire.nom" />
       </div>
       <div class="w-1/2">
         <app-label for="prenoms">Prenoms</app-label>
-        <app-input-field type="text" id="prenoms" [(value)]="newLocataire.prenoms"/>
+        <app-input-field type="text" id="prenoms"
+          [(value)]="newLocataire.prenoms" />
       </div>
     </div>
 
     <div class="flex justify-between gap-2 mb-3">
       <div class="w-1/2">
         <app-label for="phone">Telephone</app-label>
-        <app-input-field type="text" id="phone" [(value)]="newLocataire.phone"/>
+        <app-input-field type="text" id="phone"
+          [(value)]="newLocataire.phone" />
       </div>
       <div class="w-1/2">
         <app-label for="input">Adresse mail</app-label>
         <div class="relative">
           <span
-            class="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400"
-          >
+            class="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
             <svg
               width="20"
               height="20"
               viewBox="0 0 20 20"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M3.04175 7.06206V14.375C3.04175 14.6511 3.26561 14.875 3.54175 14.875H16.4584C16.7346 14.875 16.9584 14.6511 16.9584 14.375V7.06245L11.1443 11.1168C10.457 11.5961 9.54373 11.5961 8.85638 11.1168L3.04175 7.06206ZM16.9584 5.19262C16.9584 5.19341 16.9584 5.1942 16.9584 5.19498V5.20026C16.9572 5.22216 16.946 5.24239 16.9279 5.25501L10.2864 9.88638C10.1145 10.0062 9.8862 10.0062 9.71437 9.88638L3.07255 5.25485C3.05342 5.24151 3.04202 5.21967 3.04202 5.19636C3.042 5.15695 3.07394 5.125 3.11335 5.125H16.8871C16.9253 5.125 16.9564 5.15494 16.9584 5.19262ZM18.4584 5.21428V14.375C18.4584 15.4796 17.563 16.375 16.4584 16.375H3.54175C2.43718 16.375 1.54175 15.4796 1.54175 14.375V5.19498C1.54175 5.1852 1.54194 5.17546 1.54231 5.16577C1.55858 4.31209 2.25571 3.625 3.11335 3.625H16.8871C17.7549 3.625 18.4584 4.32843 18.4585 5.19622C18.4585 5.20225 18.4585 5.20826 18.4584 5.21428Z"
-                fill="#667085"
-              ></path>
+                fill="#667085"></path>
             </svg>
           </span>
           <app-input-field
             placeholder="info@gmail.com"
             type="email"
             className="pl-[62px]"
-            [(value)]="newLocataire.email"
-          />
+            [(value)]="newLocataire.email" />
         </div>
       </div>
     </div>
@@ -96,8 +99,7 @@
           "
           (valueChange)="handleSelectAppartementChange($event)"
           className="dark:bg-dark-900"
-          [disabled]="showLoadingListAppartements()"
-        />
+          [disabled]="showLoadingListAppartements()" />
       </div>
     </div>
 

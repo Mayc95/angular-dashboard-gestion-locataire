@@ -22,14 +22,14 @@ import { AppartementService } from '../../../shared/services/appartement.service
     InputFieldComponent,
     ButtonComponent,
     SelectComponent,
-    AlertComponent
-  ],
+    AlertComponent,
+],
   templateUrl: "./add-locataire.component.html",
   styleUrl: "./add-locataire.component.css",
 })
 export class AddLocataireComponent {
 
-  newLocataire: Locataire = {
+  newLocataire = {
     idAppartement: '',
     nom: '',
     prenoms: '',
@@ -37,6 +37,11 @@ export class AddLocataireComponent {
     email: '',
     picture: '',
   };
+  photoProfilFile: File|undefined = undefined;
+  photoProfilPreview: String|undefined = undefined;
+  // -- pour plus tard
+  // docAdministratifFile: File|undefined = undefined;
+  // contratFile: File|undefined = undefined;
 
   readonly router = inject(Router);
   readonly formfieldsValidationService = inject(FormfieldsValidationService);
@@ -60,8 +65,20 @@ export class AddLocataireComponent {
   readonly error = signal(false);
   errorMessage = signal("");
 
+  onChangePhotoProfil(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file) {
+      console.log("photo de profil selectionner :");
+      console.log(file);
+      this.photoProfilFile = file;
+      this.photoProfilPreview = URL.createObjectURL(file);
+    }
+  }
+
+
   handleSelectAppartementChange(value: string) {
-    
+
     let idSelectedAppartement = value;
     let listAppartment = this.#listAppartementsResponse()?.value;
     if (listAppartment != undefined && value.trim().length > 0) {
@@ -115,12 +132,14 @@ export class AddLocataireComponent {
     // Fin verification des champs du formulaire
 
     this.showLoading.set(true);
-    this.#locataireService.addLocataire(this.newLocataire).pipe(delay(3500)).subscribe({
+    this.#locataireService.addLocataire(this.newLocataire, this.photoProfilFile).pipe(delay(3500)).subscribe({
       next: () => {
         this.showLoading.set(false);
         this.router.navigate(['/locataires']);
       },
-      error: () => {
+      error: (error) => {
+        console.log("erreur: ");
+        console.log(error);
         this.error.set(true);
         this.errorMessage.set("Erreur lors de l'ajout du locataire veuillez reessayer");
         this.showLoading.set(false);

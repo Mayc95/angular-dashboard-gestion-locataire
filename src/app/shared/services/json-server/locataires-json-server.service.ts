@@ -31,8 +31,7 @@ export class LocatairesJsonServerService {
     return this.#http.delete(`${this.#LOCATAIRES_API_URL}/${locataire.id}`);
   }
 
-  addLocataire(locataire: Omit<Locataire, 'id'>): Observable<any> {
-    locataire.picture = "/images/user/user-17.jpg";
+  addLocataire(locataire: Locataire): Observable<any> {
     let result = false;
     this.#http.post(this.#LOCATAIRES_API_URL, locataire).subscribe({
       next: (response) => {
