@@ -30,6 +30,9 @@ import { AppartementService } from '../../../shared/services/appartement.service
 })
 export class EditLocataireComponent {
 
+  photoProfilFile: File|undefined = undefined;
+  photoProfilPreview: String|undefined = undefined;
+
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #locatairesService = inject(LocatairesService);
@@ -51,7 +54,8 @@ export class EditLocataireComponent {
   updatedLocataire: LocataireDetails | undefined = undefined;
   readonly locataire = computed(() => {
     if(this.#locataireResponse() && this.#locataireResponse()?.value) {
-      this.updatedLocataire = this.#locataireResponse()?.value
+      this.updatedLocataire = this.#locataireResponse()?.value;
+      this.photoProfilPreview = `http://localhost:8080/api/v1/files/display/${this.updatedLocataire?.photoProfil.filekey}`
     }
     return this.#locataireResponse()?.value
   });
@@ -92,6 +96,17 @@ export class EditLocataireComponent {
     }
   }
     */
+
+  onChangePhotoProfil(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file) {
+      console.log("photo de profil selectionner :");
+      console.log(file);
+      this.photoProfilFile = file;
+      this.photoProfilPreview = URL.createObjectURL(file);
+    }
+  }
 
   onSubmitUpdateLocataireForm() {
     console.log("updated locataire data: ");
@@ -136,7 +151,7 @@ export class EditLocataireComponent {
 
     this.showLoadingOnSubmitForm.set(true);
 
-      this.#locatairesService.updateLocataire(this.updatedLocataire.id, this.updatedLocataire).pipe(delay(5000)).subscribe({
+      this.#locatairesService.updateLocataire(this.updatedLocataire.id, this.updatedLocataire, this.photoProfilFile).pipe(delay(5000)).subscribe({
         next: () => {
           this.showLoadingOnSubmitForm.set(false);
           this.showErrorAlertOnSubmitForm.set(false);

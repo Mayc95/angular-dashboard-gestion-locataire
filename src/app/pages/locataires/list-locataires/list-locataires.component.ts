@@ -40,7 +40,11 @@ export class ListLocatairesComponent {
   );
 
   readonly showLoading = computed(() => this.#listLocatairesResponse() == undefined);
-  readonly listLocataires = computed(() => this.#listLocatairesResponse()?.value);
+  readonly listLocataires = computed(() => {
+    console.log("list locataire: ");
+    console.log(this.#listLocatairesResponse()?.value);
+    return this.#listLocatairesResponse()?.value
+  });
   readonly error = computed(() => this.#listLocatairesResponse()?.error);
 
   readonly LIST_ETAGE_OPTIONS = LIST_ETAGE;

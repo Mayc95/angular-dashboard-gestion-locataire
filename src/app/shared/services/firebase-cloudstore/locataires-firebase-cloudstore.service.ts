@@ -96,7 +96,7 @@ export class LocatairesFirebaseCloudstoreService {
                 prenoms: docSnapshot.data()['prenoms'],
                 email: docSnapshot.data()['email'],
                 phone: docSnapshot.data()['phone'],
-                picture: docSnapshot.data()['picture'],
+                photoProfil: docSnapshot.data()['picture'],
                 idAppartement: docSnapshot.data()['appartementId'],
                 numAppartement: docSnapshot.data()['numeroAppartement'],
                 paiements: [],

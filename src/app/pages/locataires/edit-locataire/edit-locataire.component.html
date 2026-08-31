@@ -64,6 +64,14 @@
       </div>
     }
     <form class="">
+      <div class="w-full flex flex-col gap-1 justify-center items-center mb-6">
+      <div class="p-2">
+        @if (photoProfilPreview) { <img class="p-1  w-[200px] h-[200px]" [src]="photoProfilPreview" /> }
+        @else { <h2>Aucune image selectionner</h2>}
+      </div>
+      <app-label for="photoprofil">Photo de profil</app-label>
+      <input id="photoprofil" name="photoprofil" type="file" accept="image/*" (change)="onChangePhotoProfil($event)" />
+    </div>
       <div class="flex justify-between gap-2 mb-3">
         <div class="w-1/2">
           <app-label for="nom">Nom</app-label>
