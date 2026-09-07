@@ -25,8 +25,14 @@ import { AddPaiementComponent } from './pages/paiements/add-paiement/add-paiemen
 import { EditLocataireComponent } from './pages/locataires/edit-locataire/edit-locataire.component';
 import { ListAppartementsComponent } from './pages/appartements/list-appartements/list-appartements.component';
 import { authGuard } from './auth.guard';
+import { ComingSoonComponent } from './shared/components/coming-soon/coming-soon.component';
 
 export const routes: Routes = [
+  {
+    path: '**',
+    component: ComingSoonComponent,
+    title: 'Angular NotFound Dashboard | TailAdmin - Angular Admin Dashboard Template'
+  },
   {
     path: '',
     component: AppLayoutComponent,
@@ -197,9 +203,9 @@ export const routes: Routes = [
     title: 'Angular Sign Up Dashboard | TailAdmin - Angular Admin Dashboard Template'
   },
   // error pages
-  {
-    path: '**',
-    component: NotFoundComponent,
-    title: 'Angular NotFound Dashboard | TailAdmin - Angular Admin Dashboard Template'
-  },
+  // {
+  //   path: '**',
+  //   component: NotFoundComponent,
+  //   title: 'Angular NotFound Dashboard | TailAdmin - Angular Admin Dashboard Template'
+  // },
 ];
