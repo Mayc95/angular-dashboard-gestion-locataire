@@ -55,7 +55,7 @@ export class EditLocataireComponent {
   readonly locataire = computed(() => {
     if(this.#locataireResponse() && this.#locataireResponse()?.value) {
       this.updatedLocataire = this.#locataireResponse()?.value;
-      this.photoProfilPreview = `http://localhost:8080/api/v1/files/display/${this.updatedLocataire?.photoProfil.filekey}`
+      this.photoProfilPreview = this.updatedLocataire?.photoProfil?.filedisplayurl;
     }
     return this.#locataireResponse()?.value
   });
