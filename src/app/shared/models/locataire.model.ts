@@ -1,4 +1,4 @@
-import { Attchment } from "./attachment.model";
+import { Attachment } from "./attachment.model";
 
 export interface Locataire {
   idAppartement: string;
@@ -16,7 +16,7 @@ export interface LocataireListObject {
   prenoms: string;
   phone: string;
   email:string;
-  photoProfil: Attchment;
+  photoProfil: Attachment;
   created: Date;
 };
 
@@ -29,7 +29,7 @@ export interface LocataireDetails {
   prenoms: string;
   phone: string;
   email:string;
-  photoProfil: Attchment;
+  photoProfil: Attachment;
   created: Date;
 };
 

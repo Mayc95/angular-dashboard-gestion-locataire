@@ -1,3 +1,4 @@
+import { Attachment } from "./attachment.model";
 
 export interface PaiementDetails {
   id: string;
@@ -8,6 +9,7 @@ export interface PaiementDetails {
   montant: string;
   mois: string;
   statut:string;
+  recuPaiement: Attachment;
   datePaiement:Date;
   created: Date;
 };

@@ -14,7 +14,7 @@ export class PaiementsFirebaseCloudstoreService {
         try {
             const snapshot = await getDocs(this.paiementsCollectionRef);
             snapshot.docs.map((doc) => {
-                let paiement: PaiementDetails = {
+                let paiement: any = {
                     id: doc.id,
                     montant: doc.data()['montant'],
                     mois: doc.data()['mois'],
@@ -35,7 +35,7 @@ export class PaiementsFirebaseCloudstoreService {
         return allPaiementsDocs;
     }
     async getPaiementDoc(id: string) {
-        let paiement: PaiementDetails | undefined = undefined
+        let paiement: any = undefined
         try {
             const docRef = doc(db, 'paiements', id);
             const snap = await getDoc(docRef);

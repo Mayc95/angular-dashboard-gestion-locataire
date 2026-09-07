@@ -1,4 +1,4 @@
-export interface Attchment {
+export interface Attachment {
   id: string;
   filekey: string;
   filedisplayurl: string;

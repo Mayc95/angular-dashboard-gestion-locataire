@@ -23,7 +23,7 @@ export class PaiementApiService implements PaiementsService {
 
         formData.append('paiement',new Blob([JSON.stringify(paiement)], {type:'application/json'}));
         if(recuPaiement) {
-            formData.append('recuPaiement', recuPaiement);
+            formData.append('recu', recuPaiement);
         }
         return this.#http.post<PaiementDetails>(this.#PAIEMENTS_API_URL, formData);
     }

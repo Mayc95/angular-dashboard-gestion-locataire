@@ -127,11 +127,11 @@
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Statut :</span>
           <app-badge
-              size="sm"
-              [color]="getBadgeColor(paiement.statut.toLowerCase())">{{paiement.statut.toUpperCase()}}</app-badge>
+            size="sm"
+            [color]="getBadgeColor(paiement.statut.toLowerCase())">{{paiement.statut.toUpperCase()}}</app-badge>
         </div>
         <div class="flex justify-between text-sm mb-4">
-          <div class="flex justify-around w-full">
+          <div class="flex flex-col md:flex-row gap-2 justify-around w-full">
             <button
               (click)="openShowPaiementModal(paiement.id)"
               class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
@@ -151,6 +151,29 @@
               </svg>
               Details
             </button>
+
+            @if (paiement.recuPaiement!=null &&
+            paiement.recuPaiement.filedisplayurl.length>0) {
+            <a
+              class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
+              [href]="paiement.recuPaiement.filedisplayurl" target="_blank">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <path
+                  d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              Voir le reçu
+            </a>
+            }
 
             <button
               (click)="openDeletePaiementModal(paiement.id)"
@@ -247,7 +270,7 @@
           </td>
           <td
             class="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-           <app-badge
+            <app-badge
               size="sm"
               [color]="getBadgeColor(paiement.statut.toLowerCase())">{{paiement.statut.toUpperCase()}}</app-badge>
           </td>
@@ -273,6 +296,29 @@
                 </svg>
                 Details
               </button>
+
+              @if (paiement.recuPaiement!=null &&
+              paiement.recuPaiement.filedisplayurl.length>0) {
+              <a
+                class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
+                [href]="paiement.recuPaiement.filedisplayurl" target="_blank">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path
+                    d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                Voir le reçu
+              </a>
+              }
 
               <button
                 (click)="openDeletePaiementModal(paiement.id)"
