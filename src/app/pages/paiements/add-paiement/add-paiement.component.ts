@@ -62,6 +62,12 @@ export class AddPaiementComponent {
 
   // for select Locataire
   readonly listLocataireOptions = computed(() => this.#listLocataire()?.value?.map((locataire) => ({ value: locataire.id.toString(), label: `${locataire.nom} ${locataire.prenoms}` })) || []);
+  
+  // for input Recu Paiement file
+  readonly recuPaiementFile= signal<File|undefined>(undefined);
+  recuPaiementFilePreview:string|undefined = undefined;
+
+
   handleSelectLocataireChange(value: string) {
     console.log('list locataire:');
     console.dir(this.#listLocataire()?.value);
@@ -76,6 +82,16 @@ export class AddPaiementComponent {
     this.newPaiement.idLocataire = value;
     console.log('Selected Locataire value:', value);
   }
+
+  onChangeRecuPaiement(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if(input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.recuPaiementFile.set(file);
+      this.recuPaiementFilePreview = URL.createObjectURL(file);
+    }
+  }
+
 
   // for input Montant
   handleMontantChange(value:string) {
@@ -152,7 +168,7 @@ export class AddPaiementComponent {
 
       this.showLoading.set(true);
 
-      this.#paiementService.addPaiement(paiement).pipe(delay(3000)).subscribe({
+      this.#paiementService.addPaiement(paiement, this.recuPaiementFile()).pipe(delay(3000)).subscribe({
         next: () => {
           this.showLoading.set(false);
           this.router.navigate(['/paiements']);
