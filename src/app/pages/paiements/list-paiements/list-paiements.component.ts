@@ -4,9 +4,9 @@ import { ModalComponent } from "../../../shared/components/ui/modal/modal.compon
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
 import { LabelComponent } from "../../../shared/components/form/label/label.component";
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { PaiementDetails } from '../../../shared/models/paiement.model';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 import { NotFoundComponent } from '../../other-page/not-found/not-found.component';
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
 import { PaiementsService } from "../../../shared/services/paiements.service";
@@ -29,11 +29,15 @@ import { DatePipe } from "@angular/common";
 })
 export class ListPaiementsComponent {
 
+  // ce signal est utilisé pour déclencher le rechargement de la liste des paiements après une suppression ou une modification
+  readonly #signalDeclencheur = signal(0);
   readonly #paiementsService = inject(PaiementsService);
   readonly #listPaiementsDetailsResponse = toSignal(
-    this.#paiementsService.getListPaiements().pipe(
-      map((list) => ({ value: list, error: undefined })),
-      catchError(() => of({ value: undefined, error: true }))
+    toObservable(this.#signalDeclencheur).pipe(
+      switchMap(() => this.#paiementsService.getListPaiements().pipe(
+        map((list) => ({ value: list, error: undefined })),
+        catchError(() => of({ value: undefined, error: true }))
+      ))
     )
   );
 
@@ -88,10 +92,6 @@ export class ListPaiementsComponent {
     this.selectedPaiementId = idpaiement;
     this.deletePaiementModalIsOpen = true;
   }
-  closeDeletePaiementModal() {
-    this.selectedPaiementId = '';
-    this.deletePaiementModalIsOpen = false;
-  }
   handleDeletePaiement() {
     this.showDeletePaiementModalLoading = true;
 
@@ -118,6 +118,13 @@ export class ListPaiementsComponent {
       })
 
     }
+  }
+  closeDeletePaiementModal() {
+    this.#signalDeclencheur.set(this.#signalDeclencheur() + 1);
+    this.selectedPaiementId = '';
+    this.showDeletePaiementModalError = false;
+    this.showDeletePaiementModalLoading = false;
+    this.deletePaiementModalIsOpen = false;
   }
 
   // for show paiement modal
@@ -147,8 +154,10 @@ export class ListPaiementsComponent {
     });
   }
   closeShowPaiementModal() {
+    this.#signalDeclencheur.set(this.#signalDeclencheur() + 1);
     this.selectedPaiement.set(undefined);
     this.modalError.set(false);
+    this.showModalLoading.set(false);
     this.showPaiementModalIsOpen = false;
   }
 
@@ -166,10 +175,6 @@ export class ListPaiementsComponent {
       this.selectedPaiement.set(undefined);
     }
   }
-  closeUpdateRecuPaiementModal() {
-    this.selectedPaiement.set(undefined);
-    this.updateRecuPaiementModalIsOpen = false;
-  }
   onChangeRecuPaiement(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -181,16 +186,16 @@ export class ListPaiementsComponent {
   handleUpdateRecuPaiement() {
     this.updateRecuPaiementModalError = false;
 
-    if(this.selectedPaiement() !== undefined && this.recuPaiementFile !== undefined) {
+    if (this.selectedPaiement() !== undefined && this.recuPaiementFile !== undefined) {
       const id = this.selectedPaiement()!.id;
       this.updateRecuPaiementModalLoading = true;
       this.#paiementsService.updateRecuPaiement(id, this.recuPaiementFile).subscribe({
         next: (value) => {
           this.updateRecuPaiementModalLoading = false;
-          this.updateRecuPaiementModalIsOpen = false;
           this.recuPaiementFile = undefined;
           this.recuPaiementPreview = undefined;
           this.selectedPaiement.set(value);
+          this.closeUpdateRecuPaiementModal();
         },
         error: (error) => {
           console.log('Error updating recu paiement:');
@@ -201,5 +206,14 @@ export class ListPaiementsComponent {
         complete: () => this.updateRecuPaiementModalLoading = false
       });
     }
+  }
+  closeUpdateRecuPaiementModal() {
+    this.#signalDeclencheur.set(this.#signalDeclencheur() + 1);
+    this.selectedPaiement.set(undefined);
+    this.recuPaiementFile = undefined;
+    this.recuPaiementPreview = undefined;
+    this.updateRecuPaiementModalLoading = false;
+    this.updateRecuPaiementModalError = false
+    this.updateRecuPaiementModalIsOpen = false;
   }
 }
