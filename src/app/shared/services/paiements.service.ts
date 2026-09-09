@@ -8,5 +8,6 @@ export abstract class PaiementsService {
   abstract getPaiementById(id: string): Observable<PaiementDetails>
   abstract addPaiement(paiement:Paiement, recuPaiement: File | undefined): Observable<PaiementDetails>
   abstract updatePaiement(id: string, paiement: Paiement): Observable<PaiementDetails>
+  abstract updateRecuPaiement(id: string, recuPaiement: File | undefined): Observable<PaiementDetails>
   abstract deletePaiementById(id: string): Observable<any>
 }

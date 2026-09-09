@@ -30,6 +30,13 @@ export class PaiementApiService implements PaiementsService {
     updatePaiement(id: string, paiement: Paiement): Observable<PaiementDetails> {
         return this.#http.put<PaiementDetails>(`${this.#PAIEMENTS_API_URL}/${id}`, paiement);
     }
+    updateRecuPaiement(id: string, recuPaiement: File | undefined): Observable<PaiementDetails> {
+        const formData = new FormData();
+        if(recuPaiement) {
+            formData.append('recu', recuPaiement);
+        }
+        return this.#http.put<PaiementDetails>(`${this.#PAIEMENTS_API_URL}/${id}/recu`, formData);
+    }
     deletePaiementById(id: string): Observable<any> {
         return this.#http.delete(`${this.#PAIEMENTS_API_URL}/${id}`);
     }

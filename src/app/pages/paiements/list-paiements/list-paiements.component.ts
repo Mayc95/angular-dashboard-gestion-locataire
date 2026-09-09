@@ -48,19 +48,19 @@ export class ListPaiementsComponent {
     if (list != undefined && searchedWord.trim().length > 0) {
       return list.filter((paiement) => {
         // on cherche dans la colonne nom et prenoms du locataire dans le tableau
-        if(paiement.nomLocataire.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if (paiement.nomLocataire.toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;
         }
         // on cherche dans la colonne montant du tableau
-        if(paiement.montant.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if (paiement.montant.toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;
         }
         // on cherche dans la colonne mois du tableau
-        if(paiement.mois.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if (paiement.mois.toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;
         }
         // on cherche dans la colonne statut du tableau
-        if(paiement.statut.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if (paiement.statut.toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;
         }
 
@@ -150,5 +150,56 @@ export class ListPaiementsComponent {
     this.selectedPaiement.set(undefined);
     this.modalError.set(false);
     this.showPaiementModalIsOpen = false;
+  }
+
+  // for update recu paiement modal
+  updateRecuPaiementModalLoading = false;
+  updateRecuPaiementModalIsOpen = false;
+  updateRecuPaiementModalError = false;
+  recuPaiementFile: File | undefined = undefined;
+  recuPaiementPreview: string | undefined = undefined;
+  openUpdateRecuPaiementModal(paiement: PaiementDetails) {
+    if (paiement !== undefined && paiement !== null) {
+      this.selectedPaiement.set(paiement);
+      this.updateRecuPaiementModalIsOpen = true;
+    } else {
+      this.selectedPaiement.set(undefined);
+    }
+  }
+  closeUpdateRecuPaiementModal() {
+    this.selectedPaiement.set(undefined);
+    this.updateRecuPaiementModalIsOpen = false;
+  }
+  onChangeRecuPaiement(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.recuPaiementFile = file;
+      this.recuPaiementPreview = URL.createObjectURL(file);
+    }
+  }
+  handleUpdateRecuPaiement() {
+    this.updateRecuPaiementModalError = false;
+
+    if(this.selectedPaiement() !== undefined && this.recuPaiementFile !== undefined) {
+      const id = this.selectedPaiement()!.id;
+      this.updateRecuPaiementModalLoading = true;
+      this.#paiementsService.updateRecuPaiement(id, this.recuPaiementFile).subscribe({
+        next: (value) => {
+          this.updateRecuPaiementModalLoading = false;
+          this.updateRecuPaiementModalIsOpen = false;
+          this.recuPaiementFile = undefined;
+          this.recuPaiementPreview = undefined;
+          this.selectedPaiement.set(value);
+        },
+        error: (error) => {
+          console.log('Error updating recu paiement:');
+          console.error(error);
+          this.updateRecuPaiementModalLoading = false;
+          this.updateRecuPaiementModalError = true;
+        },
+        complete: () => this.updateRecuPaiementModalLoading = false
+      });
+    }
   }
 }
