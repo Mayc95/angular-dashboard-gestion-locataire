@@ -13,38 +13,92 @@
     'xl:translate-x-0': true
   }"
   (mouseenter)="onSidebarMouseEnter()"
-  (mouseleave)="sidebarService.setHovered(false)"
->
+  (mouseleave)="sidebarService.setHovered(false)">
   <div
     class="py-8 flex"
     [ngClass]="{
       'xl:justify-center': !((isExpanded$ | async) || (isHovered$ | async)),
       'justify-start': (isExpanded$ | async) || (isHovered$ | async)
-    }"
-  >
+    }">
     <a routerLink="/">
-      @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) {
-      <img
+      @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ |
+      async)) {
+        <!-- for white theme -->
+      <span class="dark:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 40" width="240"
+          height="40">
+          <!-- Fond du picto (Carre bleu avec coins arrondis) -->
+          <rect x="0" y="0" width="40" height="40" rx="10" ry="10"
+            fill="#4666F6" />
+          <!-- Barres verticales -->
+          <!-- Barre 1 (gauche - haute) -->
+          <rect x="7" y="10" width="5" height="20" rx="2.5" fill="#FFFFFF" />
+          <!-- Barre 2 (milieu - moyenne) -->
+          <rect x="15.5" y="15" width="5" height="15" rx="2.5" fill="#DDE4FF" />
+          <!-- Barre 3 (droite - haute) -->
+          <rect x="24" y="12" width="5" height="18" rx="2.5" fill="#C1D0FF" />
+          <!-- Texte du logo -->
+          <text
+            x="52"
+            y="27"
+            fill="#1C2434"
+            font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif"
+            font-size="19"
+            font-weight="700"
+            letter-spacing="-0.3">
+            Gestion de locataires
+          </text>
+        </svg>
+      </span>
+
+      <!-- for dark theme -->
+      <span class="hidden dark:block">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 40" width="240"
+          height="40">
+          <!-- Fond du picto (Bleu vibrant pour theme sombre) -->
+          <rect x="0" y="0" width="40" height="40" rx="10" ry="10"
+            fill="#3C50E0" />
+          <!-- Barres verticales -->
+          <!-- Barre 1 (gauche - blanche) -->
+          <rect x="7" y="10" width="5" height="20" rx="2.5" fill="#FFFFFF" />
+          <!-- Barre 2 (milieu - bleu tres clair) -->
+          <rect x="15.5" y="15" width="5" height="15" rx="2.5" fill="#C3D4FF" />
+          <!-- Barre 3 (droite - bleu clair) -->
+          <rect x="24" y="12" width="5" height="18" rx="2.5" fill="#8EAECF" />
+          <!-- Texte du logo (Blanc / Gris tres clair) -->
+          <text
+            x="52"
+            y="27"
+            fill="#F1F5F9"
+            font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif"
+            font-size="19"
+            font-weight="700"
+            letter-spacing="-0.3">
+            Gestion de locataires
+          </text>
+        </svg>
+      </span>
+
+      <!-- <img
         class="dark:hidden"
         src="/images/logo/logo.svg"
         alt="Logo"
         width="150"
-        height="40"
-      />
+        height="40" />
       <img
         class="hidden dark:block"
         src="/images/logo/logo-dark.svg"
         alt="Logo"
         width="150"
-        height="40"
-      />
+        height="40" /> -->
       } @else {
       <img src="/images/logo/logo-icon.svg" alt="Logo" width="32" height="32" />
       }
     </a>
   </div>
 
-  <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+  <div
+    class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
     <nav class="mb-6">
       <div class="flex flex-col gap-4">
         <!-- Menu Section -->
@@ -56,25 +110,23 @@
                 (isExpanded$ | async) || (isHovered$ | async)
               ),
               'justify-start': (isExpanded$ | async) || (isHovered$ | async)
-            }"
-          >
-            @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) 
-            { Menu } 
-           @else {
+            }">
+            @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$
+            | async))
+            { Menu }
+            @else {
             <svg
               width="1em"
               height="1em"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              class="size-6"
-            >
+              class="size-6">
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M5.99915 10.2451C6.96564 10.2451 7.74915 11.0286 7.74915 11.9951V12.0051C7.74915 12.9716 6.96564 13.7551 5.99915 13.7551C5.03265 13.7551 4.24915 12.9716 4.24915 12.0051V11.9951C4.24915 11.0286 5.03265 10.2451 5.99915 10.2451ZM17.9991 10.2451C18.9656 10.2451 19.7491 11.0286 19.7491 11.9951V12.0051C19.7491 12.9716 18.9656 13.7551 17.9991 13.7551C17.0326 13.7551 16.2491 12.9716 16.2491 12.0051V11.9951C16.2491 11.0286 17.0326 10.2451 17.9991 10.2451ZM13.7491 11.9951C13.7491 11.0286 12.9656 10.2451 11.9991 10.2451C11.0326 10.2451 10.2491 11.0286 10.2491 11.9951V12.0051C10.2491 12.9716 11.0326 13.7551 11.9991 13.7551C12.9656 13.7551 13.7491 12.9716 13.7491 12.0051V11.9951Z"
-                fill="currentColor"
-              ></path>
+                fill="currentColor"></path>
             </svg>
             }
           </h2>
@@ -82,160 +134,149 @@
             @for (nav of navItems; track $index;let i = $index) {
             <li>
               @if (nav.subItems) {
-                <button
-                  (click)="toggleSubmenu('main',i)"
-                  class="menu-item group cursor-pointer"
-                  [class.menu-item-active]="openSubmenu === 'main-' + i"
-                  [class.menu-item-inactive]="openSubmenu !== 'main-' + i"
-                  [ngClass]="{
+              <button
+                (click)="toggleSubmenu('main',i)"
+                class="menu-item group cursor-pointer"
+                [class.menu-item-active]="openSubmenu === 'main-' + i"
+                [class.menu-item-inactive]="openSubmenu !== 'main-' + i"
+                [ngClass]="{
                     'xl:justify-center': !(
                       (isExpanded$ | async) || (isHovered$ | async)
                     ),
                     'xl:justify-start':
                       (isExpanded$ | async) || (isHovered$ | async)
-                  }"
-                >
-                  <span
-                    class="menu-item-icon-size"
-                    [class.menu-item-icon-active]="openSubmenu === 'main-' + i"
-                    [class.menu-item-icon-inactive]="openSubmenu !== 'main-' + i"
-                    [innerHTML]="nav.icon | safeHtml"
-                  >
-                  </span>
-                  @if ((isExpanded$ | async) || (isHovered$ | async) ||
-                  (isMobileOpen$ | async)) {
+                  }">
+                <span
+                  class="menu-item-icon-size"
+                  [class.menu-item-icon-active]="openSubmenu === 'main-' + i"
+                  [class.menu-item-icon-inactive]="openSubmenu !== 'main-' + i"
+                  [innerHTML]="nav.icon | safeHtml">
+                </span>
+                @if ((isExpanded$ | async) || (isHovered$ | async) ||
+                (isMobileOpen$ | async)) {
 
-                  <span class="menu-item-text">
-                    {{ nav.name }}
-                  </span>
-                  } 
-                  @if (nav.new && ((isExpanded$ | async) || (isHovered$ |
-                  async) || (isMobileOpen$ | async))) {
-                  <span
-                    class="ml-auto absolute right-10 menu-dropdown-badge"
-                    [ngClass]="{
+                <span class="menu-item-text">
+                  {{ nav.name }}
+                </span>
+                }
+                @if (nav.new && ((isExpanded$ | async) || (isHovered$ |
+                async) || (isMobileOpen$ | async))) {
+                <span
+                  class="ml-auto absolute right-10 menu-dropdown-badge"
+                  [ngClass]="{
                       'menu-dropdown-badge-active': openSubmenu === 'main-' + i,
                       'menu-dropdown-badge-inactive': openSubmenu !== 'main-' + i
-                    }"
-                  >
-                    new
-                  </span>
-                  } 
-                  @if ((isExpanded$ | async) || (isHovered$ | async) ||
-                  (isMobileOpen$ | async)) {
-                  <svg
-                    [ngClass]="{
+                    }">
+                  new
+                </span>
+                }
+                @if ((isExpanded$ | async) || (isHovered$ | async) ||
+                (isMobileOpen$ | async)) {
+                <svg
+                  [ngClass]="{
                       'rotate-180 text-brand-500': openSubmenu === 'main-' + i
                     }"
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="ml-auto w-5 h-5 transition-transform duration-200"
-                  >
-                    <path
-                      d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </svg>
-                  }
-                </button>
-                <div
-                  class="overflow-hidden transition-all duration-300"
-                  [id]="'main-' + i"
-                  [style.display]="
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ml-auto w-5 h-5 transition-transform duration-200">
+                  <path
+                    d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+                }
+              </button>
+              <div
+                class="overflow-hidden transition-all duration-300"
+                [id]="'main-' + i"
+                [style.display]="
                     (isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async) 
                       ? 'block' 
                       : 'none'
                   "
-                  [ngStyle]="{
+                [ngStyle]="{
                     height:
                       openSubmenu === 'main-' + i
                         ? (subMenuHeights['main-' + i] || 0) + 'px'
                         : '0px'
-                  }"
-                >
-                  <ul class="mt-2 space-y-1 ml-9">
-                    @for (subItem of nav.subItems; track $index) {
-                    <li>
-                      <a
-                        [routerLink]="subItem.path"
-                        routerLinkActive=""
-                        (click)="onSubmenuClick()"
-                        class="menu-dropdown-item"
-                        [ngClass]="{
+                  }">
+                <ul class="mt-2 space-y-1 ml-9">
+                  @for (subItem of nav.subItems; track $index) {
+                  <li>
+                    <a
+                      [routerLink]="subItem.path"
+                      routerLinkActive
+                      (click)="onSubmenuClick()"
+                      class="menu-dropdown-item"
+                      [ngClass]="{
                               'menu-dropdown-item-inactive': !isActive(subItem.path),
                               'menu-dropdown-item-active': isActive(subItem.path),
-                            }"
-                      >
-                        {{ subItem.name }}
-                        <span class="flex items-center gap-1 ml-auto">
-                          @if (subItem.new) {
-                          <span
-                            class="menu-dropdown-badge"
-                            [ngClass]="{
+                            }">
+                      {{ subItem.name }}
+                      <span class="flex items-center gap-1 ml-auto">
+                        @if (subItem.new) {
+                        <span
+                          class="menu-dropdown-badge"
+                          [ngClass]="{
                               'menu-dropdown-badge-active': isActive(
                                 subItem.path
                               ),
                               'menu-dropdown-badge-inactive': !isActive(
                                 subItem.path
                               )
-                            }"
-                          >
-                            new
-                          </span>
-                          }
-                          @if (subItem.pro) {
-                          <span
-                            class="ml-auto menu-dropdown-badge-pro"
-                            [ngClass]="{
+                            }">
+                          new
+                        </span>
+                        }
+                        @if (subItem.pro) {
+                        <span
+                          class="ml-auto menu-dropdown-badge-pro"
+                          [ngClass]="{
                               'menu-dropdown-badge-pro-active': isActive(
                                 subItem.path
                               ),
                               'menu-dropdown-badge-pro-inactive': !isActive(
                                 subItem.path
                               )
-                            }"
-                          >
-                            pro
-                          </span>
-                          }
+                            }">
+                          pro
                         </span>
-                      </a>
-                    </li>
-                    }
-                  </ul>
-                </div>
+                        }
+                      </span>
+                    </a>
+                  </li>
+                  }
+                </ul>
+              </div>
               } @else {
-                @if (nav.path) {
-                <a
-                  [routerLink]="nav.path"
-                  routerLinkActive="menu-item-active"
-                  class="menu-item group"
-                  [ngClass]="{ 'menu-item-inactive': !isActive(nav.path) }"
-                >
-                  <span
-                    class="menu-item-icon-size"
-                    [ngClass]="{
+              @if (nav.path) {
+              <a
+                [routerLink]="nav.path"
+                routerLinkActive="menu-item-active"
+                class="menu-item group"
+                [ngClass]="{ 'menu-item-inactive': !isActive(nav.path) }">
+                <span
+                  class="menu-item-icon-size"
+                  [ngClass]="{
                       'menu-item-icon-active': isActive(nav.path),
                       'menu-item-icon-inactive': !isActive(nav.path)
                     }"
-                    [innerHTML]="nav.icon | safeHtml"
-                  >
-                  </span>
-                  <span
-                    class="menu-item-text"
-                  >
-                    @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) {
-                    {{ nav.name }}
-                    }
-                  </span>
-                </a>
-                }
+                  [innerHTML]="nav.icon | safeHtml">
+                </span>
+                <span
+                  class="menu-item-text">
+                  @if ((isExpanded$ | async) || (isHovered$ | async) ||
+                  (isMobileOpen$ | async)) {
+                  {{ nav.name }}
+                  }
+                </span>
+              </a>
+              }
               }
             </li>
             }

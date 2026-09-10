@@ -43,7 +43,11 @@ export class ListPaiementsComponent {
 
   readonly showLoading = computed(() => this.#listPaiementsDetailsResponse() == undefined);
   readonly error = computed(() => this.#listPaiementsDetailsResponse()?.error);
-  readonly listPaiements = computed(() => this.#listPaiementsDetailsResponse()?.value);
+  readonly listPaiements = computed(() => {
+    console.log("tesstt");
+    console.log(this.#listPaiementsDetailsResponse());
+    return this.#listPaiementsDetailsResponse()?.value;
+  });
   readonly listPaiementsFiltered = computed(() => {
     console.log('begin search');
     let searchedWord = this.searchedWord();

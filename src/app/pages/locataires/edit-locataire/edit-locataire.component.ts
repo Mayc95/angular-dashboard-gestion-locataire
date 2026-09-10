@@ -34,7 +34,7 @@ export class EditLocataireComponent {
   photoProfilPreview: String|undefined = undefined;
 
   readonly #route = inject(ActivatedRoute);
-  readonly #router = inject(Router);
+  readonly router = inject(Router);
   readonly #locatairesService = inject(LocatairesService);
   readonly #appartementService = inject(AppartementService);
 
@@ -155,7 +155,7 @@ export class EditLocataireComponent {
         next: () => {
           this.showLoadingOnSubmitForm.set(false);
           this.showErrorAlertOnSubmitForm.set(false);
-          this.#router.navigate(['/locataires'])
+          this.router.navigate(['/locataires'])
         },
         error: (error) => {
           this.showLoadingOnSubmitForm.set(false);
