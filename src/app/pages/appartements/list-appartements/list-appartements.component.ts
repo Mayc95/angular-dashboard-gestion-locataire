@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { NotFoundComponent } from "../../other-page/not-found/not-found.component";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { catchError, map } from "rxjs/operators";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { catchError, map, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { ModalComponent } from "../../../shared/components/ui/modal/modal.component";
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
@@ -21,16 +21,18 @@ import { AppartementDetails } from "../../../shared/models/appartement.model";
 })
 export class ListAppartementsComponent {
 
+  readonly #signalDeclencheur = signal(0);
   readonly #appartementService = inject(AppartementService);
   readonly router = inject(Router);
   readonly formfieldsValidationService = inject(FormfieldsValidationService);
 
   readonly #listAppartementsResponse = toSignal(
-    this.#appartementService.getListAppartement().pipe(
-      map((value) => ({ value: value, error: undefined }),
+    toObservable(this.#signalDeclencheur).pipe(
+      switchMap(() => this.#appartementService.getListAppartement().pipe(
+        map((value) => ({ value: value, error: undefined })),
         catchError((error) => of({ value: undefined, error: error }))
-      ))
-  )
+      )))
+  );
 
   readonly error = computed(() => this.#listAppartementsResponse()?.error);
   readonly listAppartements = computed(() => this.#listAppartementsResponse()?.value);
@@ -94,6 +96,7 @@ export class ListAppartementsComponent {
     console.log(this.listAppartements());
   }
   closeAddAppartementModal() {
+    this.#signalDeclencheur.update((currentValue) => ++currentValue);
     this.addAppartementModalIsOpen.set(false);
   }
   onSubmitAddAppartementForm() {
@@ -138,21 +141,54 @@ export class ListAppartementsComponent {
     this.addAppartementModalLoading.set(true);
 
     this.#appartementService.addAppartement(this.newAppartement).subscribe({
-      next: (appart) => {
-        const appartement = appart as AppartementDetails;
+      next: () => {
         this.searchedWord.set("");
-        this.listAppartements()?.push(appartement);
         this.closeAddAppartementModal();
       },
       error: (error) => {
         console.log('Error pendant ajout appartement: ');
         console.log(error);
         this.addAppartementModalError.set(true);
-        this.errorMessage.set("Erreur pendant l'ajout d'un appartement: "+error);
+        this.errorMessage.set("Erreur pendant l'ajout d'un appartement: " + error);
       },
       complete: () => {
         this.addAppartementModalLoading.set(false);
       }
     })
+  }
+
+  deleteAppartementModalLoading = false;
+  deleteAppartementModalError = false;
+  deleteAppartementModalIsOpen = false;
+  idAppartementToDelete = signal('');
+  openDeleteAppartementModal(id: string) {
+    this.idAppartementToDelete.set(id);
+    this.deleteAppartementModalLoading = false;
+    this.deleteAppartementModalError = false;
+    this.deleteAppartementModalIsOpen = true;
+  }
+  closeDeleteAppartementModal() {
+    this.#signalDeclencheur.update((currentValue) => ++currentValue);
+    this.idAppartementToDelete.set('');
+    this.deleteAppartementModalLoading = false;
+    this.deleteAppartementModalError = false;
+    this.deleteAppartementModalIsOpen = false;
+  }
+  handleDeleteAppartement() {
+    this.deleteAppartementModalLoading = true;
+    const id = this.idAppartementToDelete();
+    if (id.trim().length > 0) {
+      this.#appartementService.deleteAppartementById(id).subscribe({
+        next: () => {
+          //this.deleteAppartementModalLoading = false;
+          this.closeDeleteAppartementModal();
+        },
+        error: () => this.deleteAppartementModalError = true,
+        complete: () => this.deleteAppartementModalLoading = false
+      })
+    } else {
+      this.deleteAppartementModalLoading = false;
+      this.deleteAppartementModalError = true;
+    }
   }
 }

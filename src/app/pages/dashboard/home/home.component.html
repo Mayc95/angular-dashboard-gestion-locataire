@@ -1,23 +1,88 @@
 <div class="grid grid-cols-12 gap-4 md:gap-6">
-  <div class="col-span-12 space-y-6 xl:col-span-7">
-    <div><app-ecommerce-metrics /></div>
+  <div class="col-span-12 space-y-6">
+    <div>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-4">
+        <!-- Appartements Metric Item Start -->
+        <div
+          class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+          <div
+            class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800"
+            [innerHTML]="icons.appartementIcon | safeHtml">
+          </div>
+          <div class="flex items-end justify-between mt-5">
+            <div>
+              <a href="/appartements">
+                <span
+                  class="text-sm text-gray-500 dark:text-gray-400">Appartements</span>
+              </a>
+              <h4
+                class="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">3,782</h4>
+            </div>
 
-    <div><app-monthly-sales-chart /></div>
-  </div>
+            <app-badge color="primary">
+              <a href="/appartements">Voir la liste</a>
+              <!-- <span [innerHTML]="icons.arrowUpIcon | safeHtml"></span>
+              11.01% -->
+            </app-badge>
 
-  <div class="col-span-12 xl:col-span-5">
-    <app-monthly-target />
-  </div>
+          </div>
+        </div>
+        <!-- Appartements Metric Item End -->
 
-  <div class="col-span-12">
-    <app-statics-chart />
-  </div>
+        <!-- Locataires Metric Item Start -->
+        <div
+          class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+          <div
+            class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800"
+            [innerHTML]="icons.locataireIcon | safeHtml">
+          </div>
+          <div class="flex items-end justify-between mt-5">
+            <div>
+              <a href="/locataires">
+                <span
+                  class="text-sm text-gray-500 dark:text-gray-400">Locataires</span>
+              </a>
+              <h4
+                class="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">3,782</h4>
+            </div>
 
-  <div class="col-span-12 xl:col-span-5">
-    <app-demographic-card />
-  </div>
+            <app-badge color="primary">
+              <a href="/locataires">Voir la liste</a>
+              <!-- <span [innerHTML]="icons.arrowUpIcon | safeHtml"></span>
+              11.01% -->
+            </app-badge>
 
-  <div class="col-span-12 xl:col-span-7">
-    <app-recent-orders/>
+          </div>
+        </div>
+        <!-- Locataires Metric Item End -->
+
+        <!-- Paiements Metric Item Start -->
+        <div
+          class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+          <div
+            class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800"
+            [innerHTML]="icons.paiementIcon | safeHtml">
+          </div>
+          <div class="flex items-end justify-between mt-5">
+            <div>
+              <a href="/paiements">
+                <span
+                  class="text-sm text-gray-500 dark:text-gray-400">Paiements</span>
+              </a>
+              <h4
+                class="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">5,359</h4>
+            </div>
+
+            <app-badge color="primary">
+              <a href="/paiements">Voir la liste</a>
+              <!-- <span [innerHTML]="icons.arrowDownIcon | safeHtml"></span>
+              9.05% -->
+            </app-badge>
+
+          </div>
+        </div>
+        <!-- Paiements Metric Item End -->
+      </div>
+    </div>
   </div>
 </div>

@@ -25,6 +25,7 @@ import { AddPaiementComponent } from './pages/paiements/add-paiement/add-paiemen
 import { EditLocataireComponent } from './pages/locataires/edit-locataire/edit-locataire.component';
 import { ListAppartementsComponent } from './pages/appartements/list-appartements/list-appartements.component';
 import { authGuard } from './auth.guard';
+import { HomeComponent } from './pages/dashboard/home/home.component';
 
 export const routes: Routes = [
   {
@@ -34,8 +35,14 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo:'/appartements',
+        redirectTo:'/dashboard',
         pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        component: HomeComponent,
+        pathMatch: 'full',
+        title: 'Tableau de bord',
       },
       {
         path: 'appartements',

@@ -1,12 +1,12 @@
 import { Locataire, LocataireDetails } from './../../../shared/models/locataire.model';
 import { Component, computed, inject, signal } from "@angular/core";
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ModalComponent } from "../../../shared/components/ui/modal/modal.component";
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
 import { LabelComponent } from "../../../shared/components/form/label/label.component";
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
 import { of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { NotFoundComponent } from '../../other-page/not-found/not-found.component';
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
 import { RouterLink } from "@angular/router";
@@ -30,13 +30,15 @@ import { LIST_ETAGE, LIST_PORTE } from '../../../shared/models/appartement.model
 export class ListLocatairesComponent {
 
 
+  readonly #signalDeclencheur = signal(0);
   readonly #locatairesServices = inject(LocatairesService);
 
   readonly #listLocatairesResponse = toSignal(
-    this.#locatairesServices.getLocataires().pipe(
+    toObservable(this.#signalDeclencheur).pipe(
+      switchMap(() => this.#locatairesServices.getLocataires().pipe(
       map((list) => ({ value: list, error: undefined })),
       catchError((error) => of({ value: undefined, error: error }))
-    )
+    )))
   );
 
   readonly showLoading = computed(() => this.#listLocatairesResponse() == undefined);
@@ -94,6 +96,7 @@ export class ListLocatairesComponent {
     this.deleteLocataireModalIsOpen = true;
   }
   closeDeleteLocataireModal() {
+    this.#signalDeclencheur.update((currentValue) => ++currentValue);
     this.selectedLocataireId = "";
     this.deleteLocataireModalIsOpen = false;
   }
@@ -151,6 +154,7 @@ export class ListLocatairesComponent {
         } else {
           this.selectedLocataire.set(value);
           this.showDetailsLocataireModalError.set(false);
+          this.closeUpdateDetailsLocataireModal();
         }
       },
       error: (error) => {
@@ -166,6 +170,7 @@ export class ListLocatairesComponent {
   }
 
   closeUpdateDetailsLocataireModal() {
+    this.#signalDeclencheur.update((currentValue) => ++currentValue);
     this.selectedLocataire.set(undefined);
     this.showDetailsLocataireModalLoading.set(false);
     this.showDetailsLocataireModalError.set(false);
