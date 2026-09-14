@@ -1,6 +1,7 @@
 export interface Attachment {
   id: string;
-  filekey: string;
-  filedisplayurl: string;
-  filedownloadurl: string;
+  key: string|null;
+  categorie: string;
+  url: string|null;
+  createdAt: Date;
 }

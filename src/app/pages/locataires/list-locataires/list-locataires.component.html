@@ -116,11 +116,11 @@
         class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm space-y-3">
         <div class="pb-2 border-b border-gray-100 mb-4">
           <div class="flex flex-row justify-center items-center w-full p-2">
-            @if(locataire.photoProfil != null) {
+            @if(locataire.photoProfil!=null && locataire.photoProfil.url!=null) {
             <div class="overflow-hidden rounded-full">
               <img
                 class="w-[70px] h-[70px]"
-                [src]="locataire.photoProfil.filedisplayurl"
+                [src]="locataire.photoProfil.url"
                 [alt]="locataire.nom + ' ' + locataire.prenoms" />
             </div>
             }
@@ -219,7 +219,7 @@
               <div class="overflow-hidden rounded-full">
                 <img
                   class="w-[70px] h-[70px]"
-                  [src]="locataire.photoProfil!=null ? locataire.photoProfil.filedisplayurl : '/images/user/user-17.jpg'"
+                  [src]="(locataire.photoProfil!=null && locataire.photoProfil.url!=null) ? locataire.photoProfil.url : '/images/user/user-17.jpg'"
                   [alt]="locataire.nom + ' ' + locataire.prenoms" />
               </div>
               <div>
@@ -433,11 +433,11 @@
     </div>
 
     @if (selectedLocataire(); as locataire) {
-    @if (locataire.photoProfil != null) {
+    @if (locataire.photoProfil!=null && locataire.photoProfil.url!=null) {
     <div class="w-full flex justify-center items-center p-2">
       <img
         class="p-1  w-[150px] h-[150px]"
-        [src]="locataire.photoProfil.filedisplayurl" />
+        [src]="locataire.photoProfil.url" />
     </div>
     }
     <div class="flex flex-row justify-between gap-2 mb-3">

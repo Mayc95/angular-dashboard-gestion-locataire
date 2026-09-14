@@ -172,10 +172,10 @@
             </button>
 
             @if (paiement.recuPaiement!=null &&
-            paiement.recuPaiement.filedisplayurl.length>0) {
+            paiement.recuPaiement.url!=null) {
             <a
               class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
-              [href]="paiement.recuPaiement.filedisplayurl" target="_blank">
+              [href]="paiement.recuPaiement.url" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -330,10 +330,10 @@
               </button>
 
               @if (paiement.recuPaiement!=null &&
-              paiement.recuPaiement.filedisplayurl.length>0) {
+              paiement.recuPaiement.url!=null) {
               <a
                 class="m-2 flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
-                [href]="paiement.recuPaiement.filedisplayurl" target="_blank">
+                [href]="paiement.recuPaiement.url" target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -644,9 +644,9 @@
       <p class="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
         Voulez-vous confirmer {{ selectedPaiement()?.recuPaiement ?
         'la modification' : 'l\'ajout' }} du recu de ce paiement ? <br />
-        @if( selectedPaiement()?.recuPaiement) {
+        @if(selectedPaiement()?.recuPaiement) {
         <span class="text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-          <a [href]="selectedPaiement()?.recuPaiement?.filedisplayurl"
+          <a [href]="selectedPaiement()?.recuPaiement?.url"
             target="_blank">Le recu actuel (cliquer pour voir)</a>, sera
           remplacé par le nouveau recu.
         </span>

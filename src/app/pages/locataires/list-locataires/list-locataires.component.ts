@@ -154,7 +154,6 @@ export class ListLocatairesComponent {
         } else {
           this.selectedLocataire.set(value);
           this.showDetailsLocataireModalError.set(false);
-          this.closeUpdateDetailsLocataireModal();
         }
       },
       error: (error) => {
