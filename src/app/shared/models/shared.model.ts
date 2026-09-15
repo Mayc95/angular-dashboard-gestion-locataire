@@ -12,3 +12,11 @@ export const MONTHS = [
     { value: 'NOVEMBRE', label: 'NOVEMBRE' },
     { value: 'DECEMBRE', label: 'DECEMBRE' }
 ];
+
+export type StatsDto = {
+    numOfAppartements: number;
+    numOfLocataires: number;
+    numOfAllPaiements: number;
+    numOfDeletedPaiements: number;
+    numOfNotDeletedPaiements: number;
+}
