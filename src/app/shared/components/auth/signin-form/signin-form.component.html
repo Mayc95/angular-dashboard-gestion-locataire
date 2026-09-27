@@ -19,8 +19,7 @@
         Se connecter
       </h1>
       <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        Saisissez comme nom d'utilisateur (admin) et comme mot de passe (admin)
-        pour vous connecter !
+        Saisissez vos identifiants pour vous connecter.
       </p>
 
       @if (showError()) {
@@ -28,7 +27,7 @@
           <app-alert
             variant="error"
             [message]="
-              'Une erreur est survenue lors de la tentative de connexion, veuillez saisir les identifiants indiques ci-dessus'
+              'Connexion impossible. Vérifiez vos identifiants et la disponibilité du serveur.'
             "
           ></app-alert>
         </p>

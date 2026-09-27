@@ -3,13 +3,14 @@ import { inject, Injectable } from "@angular/core";
 import { PaiementsService } from "../paiements.service";
 import { Observable } from "rxjs";
 import { ListPaiementsDetails, PaiementDetails, Paiement } from "../../models/paiement.model";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
     providedIn:"root"
 })
 export class PaiementApiService implements PaiementsService {
 
-    readonly #PAIEMENTS_API_URL = "http://localhost:8080/paiements";
+    readonly #PAIEMENTS_API_URL = `${environment.apiUrl}/paiements`;
     readonly #http = inject(HttpClient);
 
     getListPaiements(): Observable<ListPaiementsDetails> {

@@ -127,7 +127,7 @@
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Appartement :</span>
           <span class="font-semibold text-gray-800"> Appartement No {{
-            paiement.numAppartement }}</span>
+            paiement.libelleAppartement }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Montant (FCFA) :</span>
@@ -286,7 +286,7 @@
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            Appartement No {{ paiement.numAppartement }}
+            Appartement {{ paiement.libelleAppartement }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -544,11 +544,11 @@
             [disabled]="true" />
         </div>
         <div class="w-1/2">
-          <app-label>Appartement Numero</app-label>
+          <app-label>Appartement</app-label>
           <app-input-field
             type="text"
-            id="numappartement"
-            [value]="paiement.numAppartement"
+            id="libelleappartement"
+            [value]="paiement.libelleAppartement"
             [disabled]="true" />
         </div>
       </div>

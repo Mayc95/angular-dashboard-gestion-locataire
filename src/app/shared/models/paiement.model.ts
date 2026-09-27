@@ -5,7 +5,7 @@ export interface PaiementDetails {
   idLocataire: string;
   nomLocataire: string;
   idAppartement: string,
-  numAppartement:number;
+  libelleAppartement:string;
   montant: string;
   mois: string;
   statut:string;

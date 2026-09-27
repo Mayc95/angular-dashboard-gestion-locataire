@@ -1,14 +1,15 @@
 export interface AppartementDetails {
     id: string;
-    num: number;
+    batiment: string;
     idLocataire: string;
     nomLocataire: string;
     numEtage: number;
     numPorte: number;
+    libelle: string;
 }
 
 export interface Appartement {
-    num: number;
+    batiment: string;
     numEtage: number;
     numPorte: number;
 }

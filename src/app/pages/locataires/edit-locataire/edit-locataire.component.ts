@@ -75,7 +75,7 @@ export class EditLocataireComponent {
     appart.idLocataire == null && appart.nomLocataire == null
   )).map((appartement) => ({
       value: appartement.id,
-      label: `${appartement.num}`
+      label: `${appartement.libelle}`
     })) || []);
 
 

@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { PaiementsService } from './shared/services/paiements.service';
 import { environment } from '../environments/environment.development';
 import { PaiementsJsonServerService } from './shared/services/json-server/paiements-json-server.service';
@@ -14,6 +14,7 @@ import { AppartementService } from './shared/services/appartement.service';
 import { AppartementApiService } from './shared/services/api/appartement-api.service';
 import { LocataireApiService } from './shared/services/api/locataire-api.service';
 import { PaiementApiService } from './shared/services/api/paiement-api.service';
+import { jwtInterceptor } from './shared/interceptors/jwt.interceptor';
 
 export function paiementsServiceFactory(): PaiementsService {
   return new PaiementApiService();
@@ -30,7 +31,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([jwtInterceptor])),
     {
       provide: AppartementService,
       useFactory: appartementsServiceFactory

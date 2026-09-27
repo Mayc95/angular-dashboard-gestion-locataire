@@ -130,9 +130,9 @@
             locataire.prenoms }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
-          <span class="text-gray-500">Appartement No :</span>
+          <span class="text-gray-500">Appartement</span>
           <span class="font-semibold text-gray-800">{{
-            locataire.numAppartement }}</span>
+            locataire.libelleAppartement }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Contact :</span>
@@ -237,7 +237,7 @@
           </td>
           <td
             class="px-6 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            Appartement {{ locataire.numAppartement }}
+            {{ locataire.libelleAppartement }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -496,11 +496,11 @@
 
     <div class="flex justify-between gap-2 mb-3">
       <div class="w-1/2">
-        <app-label>Numero Appartement</app-label>
+        <app-label>Appartement</app-label>
         <app-input-field
           type="text"
           id="prenoms"
-          [(value)]="locataire.numAppartement"
+          [(value)]="locataire.libelleAppartement"
           [disabled]="true" />
       </div>
 

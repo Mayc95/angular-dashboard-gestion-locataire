@@ -49,8 +49,8 @@ export class ListAppartementsComponent {
         if (appart.id.toLowerCase().includes(searchedWord.toLowerCase())) {
           return appart;
         }
-        // on cherche dans la colonne num du tableau
-        if (appart.num.toString().toLowerCase().includes(searchedWord.toLowerCase())) {
+        // on cherche dans la colonne batiment du tableau
+        if (appart.batiment.toString().toLowerCase().includes(searchedWord.toLowerCase())) {
           return appart;
         }
         // on cherche dans la colonne etage du tableau
@@ -59,6 +59,10 @@ export class ListAppartementsComponent {
         }
         // on cherche dans la colonne porte du tableau
         if (appart.numPorte.toString().toLowerCase().includes(searchedWord.toLowerCase())) {
+          return appart;
+        }
+        // on cherche dans la colonne libelle du tableau
+        if (appart.libelle.toString().toLowerCase().includes(searchedWord.toLowerCase())) {
           return appart;
         }
         // on cherche dans la colonne locataire du tableau
@@ -78,11 +82,12 @@ export class ListAppartementsComponent {
 
   newAppartement: AppartementDetails = {
     id: '',
-    num: 0,
+    batiment: '',
     numEtage: 0,
     numPorte: 0,
     idLocataire: '',
-    nomLocataire: ''
+    nomLocataire: '',
+    libelle: ''
   };
   addAppartementModalLoading = signal(false);
   addAppartementModalError = signal(false);
@@ -108,8 +113,8 @@ export class ListAppartementsComponent {
     // Verification des champs du formulaire
     const message =
       this.formfieldsValidationService.check(
-        this.newAppartement.num <= 0,
-        "Veuillez sélectionner un numero superieur a 0"
+        this.newAppartement.batiment.trim().length <= 0,
+        "Veuillez entrer le libelle du batiment (ex: A, B, C etc...)"
       ) ??
       this.formfieldsValidationService.check(
         this.newAppartement.numPorte <= 0,
@@ -125,16 +130,11 @@ export class ListAppartementsComponent {
     // 
     const appartWithSameData = this.listAppartements()?.find((appart) =>
       appart.numEtage == this.newAppartement.numEtage && appart.numPorte == this.newAppartement.numPorte ||
-      appart.num == this.newAppartement.num
+      appart.batiment == this.newAppartement.batiment
     )
     if (appartWithSameData) {
       this.addAppartementModalError.set(true);
-      if (appartWithSameData.num == this.newAppartement.num) {
-        this.errorMessage.set("Erreur, un appartement avec le meme numero existe deja, veuillez modifier cette valeur");
-      } else {
-        this.errorMessage.set("Erreur, un appartement avec les memes numeros d'etage et de porte existe deja, veuillez modifier ces valeurs");
-      }
-
+      this.errorMessage.set("Erreur, un appartement avec les memes numeros d'etage et de porte et le meme libelle de batiment existe deja, veuillez modifier ces valeurs");
       return;
     }
 

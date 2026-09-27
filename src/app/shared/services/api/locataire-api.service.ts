@@ -3,12 +3,13 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { LocatairesService } from '../locataire.service';
 import { ListLocatairesObject, LocataireDetails, Locataire } from '../../models/locataire.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
     providedIn: "root"
 })
 export class LocataireApiService implements LocatairesService {
-    readonly #LOCATAIRES_API_URL = 'http://localhost:8080/locataires';
+    readonly #LOCATAIRES_API_URL = `${environment.apiUrl}/locataires`;
     readonly #http = inject(HttpClient);
 
     getLocataires(): Observable<ListLocatairesObject> {

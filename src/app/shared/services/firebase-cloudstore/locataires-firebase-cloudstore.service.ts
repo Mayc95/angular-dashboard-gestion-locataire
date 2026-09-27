@@ -46,7 +46,7 @@ export class LocatairesFirebaseCloudstoreService {
     async addAppartementDoc(appartement: Appartement) {
         try {
             const newAppartDoc = {
-                num: appartement.num,
+                batiment: appartement.batiment,
                 etage: appartement.numEtage,
                 porte: appartement.numPorte,
                 locataireId: "",
@@ -98,7 +98,7 @@ export class LocatairesFirebaseCloudstoreService {
                 phone: docSnapshot.data()['phone'],
                 photoProfil: docSnapshot.data()['picture'],
                 idAppartement: docSnapshot.data()['appartementId'],
-                numAppartement: docSnapshot.data()['numeroAppartement'],
+                libelleAppartement: docSnapshot.data()['libelleAppartement'],
                 paiements: [],
                 created: docSnapshot.data()['created'].toDate(),
             }
@@ -130,7 +130,7 @@ export class LocatairesFirebaseCloudstoreService {
                 phone: locataire.phone,
                 email: locataire.email,
                 appartementId: locataire.idAppartement,
-                numeroAppartement: locataire.numAppartement
+                libelleAppartement: locataire.libelleAppartement
             });
             return true;
         } catch (erreur) {
@@ -153,7 +153,7 @@ export class LocatairesFirebaseCloudstoreService {
     getListLocataires(): Observable<any> {
         return from(this.getAllLocatairesDoc()).pipe(map(list => list));
     }
-    getListAppartements(): Observable<ListAppartement> {
+    getListAppartements(): Observable<any> {
         return from(this.getAllAppartsDocs()).pipe(map(list => list));
     }
     getLocataireById(idlocataire: string): Observable<any> {

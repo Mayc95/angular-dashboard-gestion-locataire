@@ -2,12 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { StatsDto } from "../../models/shared.model";
 import { Observable } from "rxjs";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class StatsApiService {
-    readonly #STATS_API_URL = 'http://localhost:8080/stats';
+    readonly #STATS_API_URL = `${environment.apiUrl}/stats`;
     readonly #http = inject(HttpClient);
 
     getStats():Observable<StatsDto> {

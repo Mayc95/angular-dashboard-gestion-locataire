@@ -11,7 +11,7 @@ export interface Locataire {
 export interface LocataireListObject {
   id: string;
   idAppartement:string;
-  numAppartement:number;
+  libelleAppartement:string;
   nom: string;
   prenoms: string;
   phone: string;
@@ -23,7 +23,7 @@ export interface LocataireListObject {
 export interface LocataireDetails {
   id: string;
   idAppartement:string;
-  numAppartement:number;
+  libelleAppartement:string;
   paiements: any[];
   nom: string;
   prenoms: string;

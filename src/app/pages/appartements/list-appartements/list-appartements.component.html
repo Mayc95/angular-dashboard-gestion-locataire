@@ -77,8 +77,8 @@
             }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
-          <span class="text-gray-500">Numéro :</span>
-          <span class="font-semibold text-gray-800">{{ appartement.num }}</span>
+          <span class="text-gray-500">Batiment :</span>
+          <span class="font-semibold text-gray-800">{{ appartement.batiment.toUpperCase() }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Niveau (Étage) :</span>
@@ -119,7 +119,7 @@
           </th>
           <th
             class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-            Numero
+            Batiment
           </th>
           <th
             class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
@@ -147,7 +147,7 @@
           </td>
           <td
             class="px-6 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            {{ appartement.num }}
+            {{ appartement.batiment.toUpperCase() }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -288,8 +288,8 @@
 
     <div class="flex justify-between gap-2 mb-3">
       <div class="w-1/3">
-        <app-label for>Numero</app-label>
-        <app-input-field type="number" [(value)]="newAppartement.num" />
+        <app-label for>Batiment</app-label>
+        <app-input-field type="text" [(value)]="newAppartement.batiment" />
       </div>
       <div class="w-1/3">
         <app-label for>Etage</app-label>

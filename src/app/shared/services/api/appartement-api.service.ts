@@ -3,13 +3,14 @@ import { AppartementService } from "../appartement.service";
 import { Observable } from "rxjs";
 import { ListAppartementDetails, AppartementDetails, Appartement } from "../../models/appartement.model";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
     providedIn: "root"
 })
 export class AppartementApiService implements AppartementService {
 
-    readonly #APPARTEMENTS_API_URL = 'http://localhost:8080/appartements';
+    readonly #APPARTEMENTS_API_URL = `${environment.apiUrl}/appartements`;
     readonly #http = inject(HttpClient);
 
     getListAppartement(): Observable<ListAppartementDetails> {
