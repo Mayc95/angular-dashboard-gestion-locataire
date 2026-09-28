@@ -157,11 +157,15 @@ export class EditLocataireComponent {
           this.showErrorAlertOnSubmitForm.set(false);
           this.router.navigate(['/locataires'])
         },
-        error: (error) => {
+        error: (response) => {
+          console.error("Erreur updating locataire: ", response);
           this.showLoadingOnSubmitForm.set(false);
-          this.errorAlertOnSubmitFormMessage.set("Une erreur est survenue lors de la modification du locataire. Veuillez réessayer.")
           this.showErrorAlertOnSubmitForm.set(true);
-          console.error("Error updating locataire: ", error);
+          let msgError = "Erreur survenue pendant la modification d'un locataire, veuillez réessayer.";
+          if(response.error && response.error.message) {
+            msgError = "Erreur survenue pendant la modification d'un locataire: "+response.error.message
+          }
+          this.errorAlertOnSubmitFormMessage.set(msgError);
         },
         complete: () => { this.showLoadingOnSubmitForm.set(false); }
       })

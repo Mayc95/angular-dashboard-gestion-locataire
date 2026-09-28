@@ -463,7 +463,7 @@
     <div>
       <app-alert
         variant="error"
-        message="Une erreur est survenue lors de l'archivage du paiement. Veuillez réessayer.">
+        message="Erreur survenue lors de l'archivage du paiement. Veuillez réessayer.">
       </app-alert>
       <div class="w-full flex items-center gap-3 px-2 mt-6 lg:justify-end">
         <app-button
@@ -502,24 +502,22 @@
   className="max-w-[700px] m-4">
   <div
     class="no-scrollbar relative w-full h-full overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
-    @if (modalError()) {
+    @if (showPaiementModalError()) {
     <div
       class="mx-auto w-full flex flex-col items-center justify-center text-center">
-      <h1
-        class="mb-8 font-bold text-gray-800 text-title-md dark:text-white/90 xl:text-title-2xl">
-        ERROR
-      </h1>
-
-      <img src="/images/error/404.svg" alt="404" class="dark:hidden" />
-      <img
-        src="/images/error/404-dark.svg"
-        alt="404"
-        class="hidden dark:block" />
-
-      <p
-        class="mt-10 mb-6 text-base text-gray-700 dark:text-gray-400 sm:text-lg">
-        We can’t seem to find the page you are looking for!
-      </p>
+      <app-alert
+        variant="error"
+        [message]="showPaiementModalErrorMsg()">
+      </app-alert>
+      <div class="w-full flex items-center gap-3 px-2 mt-6 lg:justify-end">
+        <app-button
+          size="sm"
+          variant="outline"
+          class="mt-4"
+          (btnClick)="closeShowPaiementModal()">
+          Annuler
+        </app-button>
+      </div>
     </div>
     } @else {
     <div class="px-2 pr-14">
@@ -604,7 +602,7 @@
     </div>
     }
 
-    @if (showModalLoading()) {
+    @if (showPaiementModalLoading()) {
     <div class="w-full h-full flex justify-center items-center">
       <div role="status">
         <svg

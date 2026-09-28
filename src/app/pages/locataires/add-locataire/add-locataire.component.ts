@@ -23,7 +23,7 @@ import { AppartementService } from '../../../shared/services/appartement.service
     ButtonComponent,
     SelectComponent,
     AlertComponent,
-],
+  ],
   templateUrl: "./add-locataire.component.html",
   styleUrl: "./add-locataire.component.css",
 })
@@ -37,8 +37,8 @@ export class AddLocataireComponent {
     email: '',
     picture: '',
   };
-  photoProfilFile: File|undefined = undefined;
-  photoProfilPreview: String|undefined = undefined;
+  photoProfilFile: File | undefined = undefined;
+  photoProfilPreview: String | undefined = undefined;
   // -- pour plus tard
   // docAdministratifFile: File|undefined = undefined;
   // contratFile: File|undefined = undefined;
@@ -137,12 +137,15 @@ export class AddLocataireComponent {
         this.showLoading.set(false);
         this.router.navigate(['/locataires']);
       },
-      error: (error) => {
-        console.log("erreur: ");
-        console.log(error);
-        this.error.set(true);
-        this.errorMessage.set("Erreur lors de l'ajout du locataire veuillez reessayer");
+      error: (response) => {
+        console.log("Erreur survenue pendant l'ajout d'un locataire: ", response);
         this.showLoading.set(false);
+        this.error.set(true);
+        let msgError = "Erreur survenue pendant l'ajout d'un locataire, veuillez réessayer.";
+        if (response.error && response.error.message) {
+          msgError = "Erreur survenue pendant l'ajout d'un locataire: " + response.error.message
+        }
+        this.errorMessage.set(msgError);
       },
       complete: () => {
         this.error.set(false);

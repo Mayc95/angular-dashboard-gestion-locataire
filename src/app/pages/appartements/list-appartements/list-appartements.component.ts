@@ -129,8 +129,9 @@ export class ListAppartementsComponent {
 
     // 
     const appartWithSameData = this.listAppartements()?.find((appart) =>
-      appart.numEtage == this.newAppartement.numEtage && appart.numPorte == this.newAppartement.numPorte ||
-      appart.batiment == this.newAppartement.batiment
+      appart.batiment == this.newAppartement.batiment &&
+      appart.numEtage == this.newAppartement.numEtage &&
+      appart.numPorte == this.newAppartement.numPorte
     )
     if (appartWithSameData) {
       this.addAppartementModalError.set(true);
@@ -145,11 +146,16 @@ export class ListAppartementsComponent {
         this.searchedWord.set("");
         this.closeAddAppartementModal();
       },
-      error: (error) => {
-        console.log('Error pendant ajout appartement: ');
-        console.log(error);
+      error: (response) => {
+        console.log('Erreur pendant ajout appartement: ');
+        console.log(response);
+        this.addAppartementModalLoading.set(false);
         this.addAppartementModalError.set(true);
-        this.errorMessage.set("Erreur pendant l'ajout d'un appartement: " + error);
+        let msgError = "Erreur survenue pendant l'ajout d'un appartement, veuillez réessayer.";
+        if (response.error && response.error.message) {
+          msgError = "Erreur pendant l'ajout d'un appartement: " + response.error.message
+        }
+        this.errorMessage.set(msgError);
       },
       complete: () => {
         this.addAppartementModalLoading.set(false);
@@ -183,7 +189,10 @@ export class ListAppartementsComponent {
           //this.deleteAppartementModalLoading = false;
           this.closeDeleteAppartementModal();
         },
-        error: () => this.deleteAppartementModalError = true,
+        error: () => {
+          this.deleteAppartementModalLoading = false;
+          this.deleteAppartementModalError = true;
+        },
         complete: () => this.deleteAppartementModalLoading = false
       })
     } else {

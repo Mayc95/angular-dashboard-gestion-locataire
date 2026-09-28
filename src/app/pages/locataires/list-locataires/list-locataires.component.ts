@@ -119,16 +119,15 @@ export class ListLocatairesComponent {
           next: () => {
             console.log('locataire with id: ' + this.selectedLocataireId + " is deleted");
             this.listLocataires()?.splice(indexOfSelectedLocataireInListLocataires ?? -1, 1);
-            this.showDeleteLocataireModalLoading = false;
             this.showDeleteLocataireModalError = false;
             this.closeDeleteLocataireModal();
           },
           error: (error) => {
             console.log('error deleting locataire with id=' + this.selectedLocataireId);
             console.error('error: ' + error);
-            this.showDeleteLocataireModalLoading = false;
             this.showDeleteLocataireModalError = true;
           },
+          complete: () => this.showDeleteLocataireModalLoading = false
         })
       }
     }
@@ -136,12 +135,13 @@ export class ListLocatairesComponent {
 
 
 
-  // for update locataire modal
+  // for show details locataire modal
   selectedLocataire = signal<LocataireDetails | undefined>(undefined);
   showDetailsLocataireModalLoading = signal(false);
   showDetailsLocataireModalError = signal(false);
+  showDetailsLocataireModalErrorMsg = signal("Erreur survenue lors de la récupération des informations du locataire. Veuillez réessayer.");
   showDetailsLocataireModalIsOpen = false;
-  openUpdateLocataireModal(idlocataire: string) {
+  openShowDetailsLocataireModal(idlocataire: string) {
     this.showDetailsLocataireModalIsOpen = true;
     this.showDetailsLocataireModalLoading.set(true);
 
@@ -156,9 +156,12 @@ export class ListLocatairesComponent {
           this.showDetailsLocataireModalError.set(false);
         }
       },
-      error: (error) => {
-        console.error('Une erreur est survenue :', error);
+      error: (response) => {
+        console.error('Erreur survenue pendant la récupération des informations du locataire:', response);
         this.selectedLocataire.set(undefined);
+        if(response.error && response.error.message) {
+          this.showDetailsLocataireModalErrorMsg.set("Erreur survenue lors de la récupération des informations du locataire: "+response.error.message);
+        }
         this.showDetailsLocataireModalError.set(true);
       },
       complete: () => {
@@ -168,7 +171,7 @@ export class ListLocatairesComponent {
     })
   }
 
-  closeUpdateDetailsLocataireModal() {
+  closeShowDetailsLocataireModal() {
     this.#signalDeclencheur.update((currentValue) => ++currentValue);
     this.selectedLocataire.set(undefined);
     this.showDetailsLocataireModalLoading.set(false);

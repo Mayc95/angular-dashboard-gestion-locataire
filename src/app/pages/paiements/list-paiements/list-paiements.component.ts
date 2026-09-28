@@ -105,16 +105,15 @@ export class ListPaiementsComponent {
         next: () => {
           console.log('delete paiement with id: ' + this.selectedPaiementId);
           this.listPaiements()?.splice(indexOfSelectedPaiementInListPaiements, 1);
-          this.showDeletePaiementModalLoading = false;
           this.showDeletePaiementModalError = false;
           this.closeDeletePaiementModal();
         },
         error: (error) => {
           console.log('error deleting paiement with id=' + this.selectedPaiementId);
           console.error('error: ' + error);
-          this.showDeletePaiementModalLoading = false;
           this.showDeletePaiementModalError = true;
         },
+        complete: () => this.showDeletePaiementModalLoading = false
       })
 
     }
@@ -129,35 +128,39 @@ export class ListPaiementsComponent {
 
   // for show paiement modal
   selectedPaiement = signal<PaiementDetails | undefined>(undefined);
-  showModalLoading = signal(false);
-  modalError = signal(false);
+  showPaiementModalLoading = signal(false);
+  showPaiementModalError = signal(false);
+  showPaiementModalErrorMsg = signal("Erreur survenue lors de la récupération des information du paiement, veuillez réessayer.")
   showPaiementModalIsOpen = false;
   openShowPaiementModal(idpaiement: string) {
     this.showPaiementModalIsOpen = true;
-    this.showModalLoading.set(true);
+    this.showPaiementModalLoading.set(true);
 
     this.#paiementsService.getPaiementById(idpaiement).subscribe({
       next: valeur => {
         console.log('Valeur reçue :', valeur);
         this.selectedPaiement.set(valeur);
-        this.modalError.set(false);
+        this.showPaiementModalError.set(false);
       },
-      error: err => {
-        console.error('Une erreur est survenue :', err)
+      error: response => {
+        console.error('Erreur survenue lors de la récupération des information du paiement: ', response)
         this.selectedPaiement.set(undefined);
-        this.modalError.set(true);
+        if (response.error && response.error.message) {
+          this.showPaiementModalErrorMsg.set("Erreur survenue lors de la récupération des information du paiement: " + response.error.message);
+        }
+        this.showPaiementModalError.set(true);
       },
       complete: () => {
         console.log('Flux terminé !');
-        this.showModalLoading.set(false);
+        this.showPaiementModalLoading.set(false);
       }
     });
   }
   closeShowPaiementModal() {
     this.#signalDeclencheur.set(this.#signalDeclencheur() + 1);
     this.selectedPaiement.set(undefined);
-    this.modalError.set(false);
-    this.showModalLoading.set(false);
+    this.showPaiementModalError.set(false);
+    this.showPaiementModalLoading.set(false);
     this.showPaiementModalIsOpen = false;
   }
 
@@ -197,9 +200,8 @@ export class ListPaiementsComponent {
           this.selectedPaiement.set(value);
           this.closeUpdateRecuPaiementModal();
         },
-        error: (error) => {
-          console.log('Error updating recu paiement:');
-          console.error(error);
+        error: (response) => {
+          console.log('Error updating recu paiement: ', response);
           this.updateRecuPaiementModalLoading = false;
           this.updateRecuPaiementModalError = true;
         },

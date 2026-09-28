@@ -141,7 +141,7 @@
         <div class="flex justify-between text-sm mb-4">
           <div class="flex justify-around w-full">
             <button
-              (click)="openUpdateLocataireModal(locataire.id)"
+              (click)="openShowDetailsLocataireModal(locataire.id)"
               class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
               <svg
                 class="fill-current"
@@ -247,7 +247,7 @@
             class="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
             <div class="flex flex-row justify-center gap-4">
               <button
-                (click)="openUpdateLocataireModal(locataire.id)"
+                (click)="openShowDetailsLocataireModal(locataire.id)"
                 class="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
                 <svg
                   class="fill-current"
@@ -340,7 +340,7 @@
     <div>
       <app-alert
         variant="error"
-        message="Une erreur est survenue lors de la suppression du locataire. Veuillez réessayer.">
+        message="Erreur survenue lors de la suppression du locataire. Veuillez réessayer.">
       </app-alert>
       <div class="w-full flex items-center gap-3 px-2 mt-6 lg:justify-end">
         <app-button
@@ -395,28 +395,25 @@
 <!-- Modal update locataire -->
 <app-modal
   [isOpen]="showDetailsLocataireModalIsOpen"
-  (close)="closeUpdateDetailsLocataireModal()"
+  (close)="closeShowDetailsLocataireModal()"
   className="max-w-[700px] m-4">
   <div
     class="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
     @if (showDetailsLocataireModalError()) {
-    <div
-      class="mx-auto w-full flex flex-col items-center justify-center text-center">
-      <h1
-        class="mb-8 font-bold text-gray-800 text-title-md dark:text-white/90 xl:text-title-2xl">
-        ERROR
-      </h1>
-
-      <img src="/images/error/404.svg" alt="404" class="dark:hidden" />
-      <img
-        src="/images/error/404-dark.svg"
-        alt="404"
-        class="hidden dark:block" />
-
-      <p
-        class="mt-10 mb-6 text-base text-gray-700 dark:text-gray-400 sm:text-lg">
-        We can’t seem to find the page you are looking for!
-      </p>
+    <div>
+      <app-alert
+        variant="error"
+        [message]="showDetailsLocataireModalErrorMsg()">
+      </app-alert>
+      <div class="w-full flex items-center gap-3 px-2 mt-6 lg:justify-end">
+        <app-button
+          size="sm"
+          variant="outline"
+          class="mt-4"
+          (btnClick)="closeShowDetailsLocataireModal()">
+          Annuler
+        </app-button>
+      </div>
     </div>
     } @else {
     <div class="px-2 pr-14">
@@ -519,7 +516,7 @@
       <app-button
         size="sm"
         variant="outline"
-        (btnClick)="closeUpdateDetailsLocataireModal()">
+        (btnClick)="closeShowDetailsLocataireModal()">
         Fermer
       </app-button>
       <app-button

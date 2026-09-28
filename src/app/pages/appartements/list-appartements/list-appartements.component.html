@@ -281,7 +281,7 @@
     </div>
     } @else {
     @if (addAppartementModalError()) {
-    <div class="my-3">
+    <div class="py-5">
       <app-alert variant="error" [message]="errorMessage()"></app-alert>
     </div>
     }
@@ -336,7 +336,7 @@
     <div>
       <app-alert
         variant="error"
-        message="Une erreur est survenue lors de la suppression du locataire. Veuillez réessayer.">
+        message="Erreur survenue lors de la suppression du locataire. Veuillez réessayer.">
       </app-alert>
       <div class="w-full flex items-center gap-3 px-2 mt-6 lg:justify-end">
         <app-button

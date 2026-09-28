@@ -173,11 +173,16 @@ export class AddPaiementComponent {
           this.showLoading.set(false);
           this.router.navigate(['/paiements']);
         },
-        error: (error) => {
-          console.log('Error adding paiement:', error);
+        error: (response) => {
+          console.log('Error adding paiement:', response);
           this.showLoading.set(false);
-          this.errorMessage.set("Une erreur est survenue lors de l'ajout du locataire. Veuillez réessayer.");
           this.error.set(true);
+          let msgError = "Erreur survenue pendant l'enregistrement du paiement, veuillez réessayer.";
+          if (response.error && response.error.message) {
+            msgError = "Erreur survenue pendant l'enregistrement du paiement: " + response.error.message
+          }
+          this.errorMessage.set(msgError);
+          
         },
         complete: () => this.showLoading.set(false)
       })
