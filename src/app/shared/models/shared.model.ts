@@ -20,3 +20,6 @@ export type StatsDto = {
     numOfDeletedPaiements: number;
     numOfNotDeletedPaiements: number;
 }
+
+
+export const USER_DEFAULT_PICTURE_URL = "/images/user/user-default.png";

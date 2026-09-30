@@ -66,7 +66,7 @@
     <form class="">
       <div class="w-full flex flex-col gap-1 justify-center items-center mb-6">
       <div class="p-2">
-        @if (photoProfilPreview) { <img class="p-1  w-[200px] h-[200px]" [src]="photoProfilPreview" /> }
+        @if (photoProfilPreview) { <div class="w-[200px] h-[200px]"><img class="p-1" [src]="photoProfilPreview" /></div> }
         @else { <h2>Aucune image selectionner</h2>}
       </div>
       <app-label for="photoprofil">Photo de profil</app-label>

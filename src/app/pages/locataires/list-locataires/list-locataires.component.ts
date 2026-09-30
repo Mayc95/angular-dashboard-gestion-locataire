@@ -1,4 +1,4 @@
-import { Locataire, LocataireDetails } from './../../../shared/models/locataire.model';
+import { LocataireDetails } from './../../../shared/models/locataire.model';
 import { Component, computed, inject, signal } from "@angular/core";
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ModalComponent } from "../../../shared/components/ui/modal/modal.component";

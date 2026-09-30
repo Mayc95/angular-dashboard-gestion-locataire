@@ -1,12 +1,11 @@
 import { FormfieldsValidationService } from './../../../shared/services/formfields.validation.service';
-import { Locataire } from './../../../shared/models/locataire.model';
 import { Component, computed, inject, signal } from "@angular/core";
 import { ComponentCardComponent } from "../../../shared/components/common/component-card/component-card.component";
 import { LabelComponent } from "../../../shared/components/form/label/label.component";
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
 import { SelectComponent } from "../../../shared/components/form/select/select.component";
-import { catchError, delay, map, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
@@ -48,7 +47,6 @@ export class AddLocataireComponent {
   readonly #locataireService = inject(LocatairesService);
   readonly #appartementService = inject(AppartementService);
   readonly #listAppartementsResponse = toSignal(this.#appartementService.getListAppartement().pipe(
-    delay(2000),
     map((value) => ({ value: value, error: undefined })),
     catchError(() => of({ value: [], error: true }))
   ))
@@ -132,7 +130,7 @@ export class AddLocataireComponent {
     // Fin verification des champs du formulaire
 
     this.showLoading.set(true);
-    this.#locataireService.addLocataire(this.newLocataire, this.photoProfilFile).pipe(delay(3500)).subscribe({
+    this.#locataireService.addLocataire(this.newLocataire, this.photoProfilFile).subscribe({
       next: () => {
         this.showLoading.set(false);
         this.router.navigate(['/locataires']);

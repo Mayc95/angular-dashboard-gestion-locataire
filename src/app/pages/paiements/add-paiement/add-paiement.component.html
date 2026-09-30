@@ -26,6 +26,32 @@
     </div>
     }
 
+    <div class="flex flex-row justify-center items-center mb-3">
+      <!-- Reçu de paiement -->
+      <div class="">
+        <div class="p-2">
+          @if (recuPaiementFilePreview) { <img class="p-1  w-[200px] h-[200px]"
+            [src]="recuPaiementFilePreview" /> }
+          @else { <h2>Aucune image selectionner</h2>}
+        </div>
+        <app-label for="recupaiement">Reçu de paiement</app-label>
+        <input id="recupaiement" name="recupaiement" type="file" accept="image/*"
+          (change)="onChangeRecuPaiement($event)" />
+      </div>
+
+      <!-- Statut paiement -->
+      <!--
+      <div class="w-1/2">
+        <app-label>Statut</app-label>
+        <app-select
+          [options]="LIST_STATUT_OPTIONS"
+          placeholder="Selectionner un statut"
+          (valueChange)="handleSelectStatutChange($event)"
+          className="dark:bg-dark-900"></app-select>
+      </div>
+      -->
+    </div>
+
     <div class="flex justify-between gap-2 mb-3">
       <!-- Locataire -->
       <div class="w-1/2">
@@ -68,30 +94,6 @@
           placeholder="Selectionner une date"
           (dateChange)="handleDatePaiementChange($event)" />
 
-      </div>
-    </div>
-
-    <div class="flex justify-between gap-2 mb-3">
-      
-      <!-- Statut paiement -->
-      <div class="w-1/2">
-        <app-label>Statut</app-label>
-        <app-select
-          [options]="LIST_STATUT_OPTIONS"
-          placeholder="Selectionner un statut"
-          (valueChange)="handleSelectStatutChange($event)"
-          className="dark:bg-dark-900"></app-select>
-      </div>
-      <!-- Reçu de paiement -->
-      <div class="w-1/2 mx-4">
-        <div class="p-2">
-          @if (recuPaiementFilePreview) { <img class="p-1  w-[200px] h-[200px]"
-            [src]="recuPaiementFilePreview" /> }
-          @else { <h2>Aucune image selectionner</h2>}
-        </div>
-        <app-label for="recupaiement">Reçu de paiement</app-label>
-        <input id="recupaiement" name="recupaiement" type="file" accept="image/*"
-          (change)="onChangeRecuPaiement($event)" />
       </div>
     </div>
 

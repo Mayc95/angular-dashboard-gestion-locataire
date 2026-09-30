@@ -3,5 +3,6 @@ export interface Attachment {
   key: string|null;
   categorie: string;
   url: string|null;
+  originalFileName:string|null;
   createdAt: Date;
 }

@@ -18,7 +18,6 @@ export interface Paiement {
   idLocataire: string;
   montant: string;
   mois: string;
-  statut:string;
   datePaiement:Date;
 }
 

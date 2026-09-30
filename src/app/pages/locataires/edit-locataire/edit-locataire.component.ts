@@ -1,16 +1,14 @@
-import { LocatairesJsonServerService } from './../../../shared/services/json-server/locataires-json-server.service';
 import { FormfieldsValidationService } from './../../../shared/services/formfields.validation.service';
 import { Component, computed, effect, inject, signal } from "@angular/core";
 import { ComponentCardComponent } from "../../../shared/components/common/component-card/component-card.component";
 import { LabelComponent } from "../../../shared/components/form/label/label.component";
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
-import { Locataire, LocataireDetails } from "../../../shared/models/locataire.model";
+import { LocataireDetails } from "../../../shared/models/locataire.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { catchError, delay, map, of } from "rxjs";
+import { catchError, map, of } from "rxjs";
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
-import { SelectComponent } from "../../../shared/components/form/select/select.component";
 import { LocatairesService } from '../../../shared/services/locataire.service';
 import { LIST_ETAGE, LIST_PORTE } from '../../../shared/models/appartement.model';
 import { AppartementService } from '../../../shared/services/appartement.service';
@@ -151,7 +149,7 @@ export class EditLocataireComponent {
 
     this.showLoadingOnSubmitForm.set(true);
 
-      this.#locatairesService.updateLocataire(this.updatedLocataire.id, this.updatedLocataire, this.photoProfilFile).pipe(delay(5000)).subscribe({
+      this.#locatairesService.updateLocataire(this.updatedLocataire.id, this.updatedLocataire, this.photoProfilFile).subscribe({
         next: () => {
           this.showLoadingOnSubmitForm.set(false);
           this.showErrorAlertOnSubmitForm.set(false);

@@ -8,11 +8,11 @@ import { SelectComponent } from "../../../shared/components/form/select/select.c
 import { DatePickerComponent } from "../../../shared/components/form/date-picker/date-picker.component";
 import { MONTHS } from "../../../shared/models/shared.model";
 import { LIST_STATUT_PAIEMENT, Paiement } from "../../../shared/models/paiement.model";
-import { catchError, delay, map, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { FormfieldsValidationService } from '../../../shared/services/formfields.validation.service';
 import { AlertComponent } from "../../../shared/components/ui/alert/alert.component";
-import { Locataire, LocataireDetails, LocataireListObject } from '../../../shared/models/locataire.model';
+import { LocataireListObject } from '../../../shared/models/locataire.model';
 import { LocatairesService } from '../../../shared/services/locataire.service';
 import { PaiementsService } from '../../../shared/services/paiements.service';
 
@@ -41,7 +41,6 @@ export class AddPaiementComponent {
   readonly formfieldsValidationService = inject(FormfieldsValidationService);
 
   readonly #listLocataire = toSignal(this.#locataireService.getLocataires().pipe(
-    delay(5000),
     map((list) => ({ value: list, error: undefined })),
     catchError((error) => of({ value: undefined, error: error }))
   ));
@@ -56,7 +55,6 @@ export class AddPaiementComponent {
     idLocataire: '',
     montant: '',
     mois: '',
-    statut: '',
     datePaiement: new Date(),
   }
 
@@ -105,12 +103,6 @@ export class AddPaiementComponent {
     console.log('Selected Mois value:', value);
   }
 
-  // for select Statut
-  handleSelectStatutChange(value: string) {
-    this.newPaiement.statut = value;
-    console.log('Selected Statut value:', value);
-  }
-
   // for date paiement input
   handleDatePaiementChange(event: any) {
     this.newPaiement.datePaiement = event.selectedDates[0];
@@ -125,11 +117,10 @@ export class AddPaiementComponent {
     console.log('paiement:');
     console.dir(this.newPaiement);
 
-    const paiement: Omit<Paiement,'id'> = {
+    const paiement: Paiement = {
         idLocataire: this.newPaiement.idLocataire,
         montant: this.newPaiement.montant,
         mois: this.newPaiement.mois,
-        statut: this.newPaiement.statut,
         datePaiement: this.newPaiement.datePaiement,
       }
 
@@ -150,10 +141,6 @@ export class AddPaiementComponent {
       this.formfieldsValidationService.check(
         !paiement.datePaiement,
         "Veuillez selectionner une date"
-      ) ??
-      this.formfieldsValidationService.check(
-        !paiement.statut.trim(),
-        "Veuillez selectionner un statut"
       );
 
     if (message) {
@@ -168,7 +155,7 @@ export class AddPaiementComponent {
 
       this.showLoading.set(true);
 
-      this.#paiementService.addPaiement(paiement, this.recuPaiementFile()).pipe(delay(3000)).subscribe({
+      this.#paiementService.addPaiement(paiement, this.recuPaiementFile()).subscribe({
         next: () => {
           this.showLoading.set(false);
           this.router.navigate(['/paiements']);

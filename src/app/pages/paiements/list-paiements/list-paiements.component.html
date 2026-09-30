@@ -111,7 +111,7 @@
     <!-- sur mobile -->
     <div class="block md:hidden space-y-4">
       @for (paiement of listPaiementsFiltered(); track $index) {
-      <!-- Carte Appartement -->
+      <!-- Carte Paiement -->
 
       <div
         class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm space-y-3">
@@ -126,8 +126,7 @@
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Appartement :</span>
-          <span class="font-semibold text-gray-800"> Appartement No {{
-            paiement.libelleAppartement }}</span>
+          <span class="font-semibold text-gray-800"> {{ paiement.libelleAppartement }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Montant (FCFA) :</span>
@@ -286,7 +285,7 @@
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            Appartement {{ paiement.libelleAppartement }}
+            {{ paiement.libelleAppartement }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -682,24 +681,16 @@
       </div>
     </div>
     } @else {
-    @if (updateRecuPaiementModalError) {
-    <div>
-      <app-alert
-        variant="error"
-        message="Une erreur est survenue lors de l'archivage du paiement. Veuillez réessayer.">
-      </app-alert>
-      <div class="w-full flex items-center gap-3 px-2 mt-6 lg:justify-end">
-        <app-button
-          size="sm"
-          variant="outline"
-          class="mt-4"
-          (btnClick)="closeDeletePaiementModal()">
-          Annuler
-        </app-button>
-      </div>
-    </div>
-    } @else {
     <form class="flex flex-col" (ngSubmit)="handleUpdateRecuPaiement()">
+
+      @if (updateRecuPaiementModalError) {
+      <div class="py-4">
+        <app-alert
+          variant="error"
+          message="Une erreur est survenue lors de l'archivage du paiement. Veuillez réessayer.">
+        </app-alert>
+      </div>
+      }
       <input id="idlocataire" hidden />
       <div class="flex items-center gap-3 px-2 mt-6 lg:justify-end">
         <app-button
@@ -713,7 +704,6 @@
         </app-button>
       </div>
     </form>
-    }
     }
   </div>
 </app-modal>
