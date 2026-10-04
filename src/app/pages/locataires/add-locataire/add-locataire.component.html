@@ -37,7 +37,8 @@
         @else { <h2>Aucune image selectionner</h2>}
       </div>
       <app-label for="photoprofil">Photo de profil</app-label>
-      <input id="photoprofil" name="photoprofil" type="file" accept="image/*" (change)="onChangePhotoProfil($event)" />
+      <!-- Accepts image files (png,.jpg,.jpeg) -->
+      <input id="photoprofil" name="photoprofil" type="file" accept=".png,.jpg,.jpeg" (change)="onChangePhotoProfil($event)" />
     </div>
 
     <div class="flex justify-between gap-2 mb-3">

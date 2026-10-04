@@ -35,7 +35,8 @@
           @else { <h2>Aucune image selectionner</h2>}
         </div>
         <app-label for="recupaiement">Reçu de paiement</app-label>
-        <input id="recupaiement" name="recupaiement" type="file" accept="image/*"
+        <!-- Accepts image files (png,.jpg,.jpeg), PDF, Word documents -->
+        <input id="recupaiement" name="recupaiement" type="file" accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           (change)="onChangeRecuPaiement($event)" />
       </div>
 

@@ -11,6 +11,7 @@ import { NotFoundComponent } from '../../other-page/not-found/not-found.componen
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
 import { PaiementsService } from "../../../shared/services/paiements.service";
 import { DatePipe } from "@angular/common";
+import { TableDropdownComponent } from "../../../shared/components/common/table-dropdown/table-dropdown.component";
 
 @Component({
   selector: "app-list-paiements",
@@ -23,7 +24,8 @@ import { DatePipe } from "@angular/common";
     InputFieldComponent,
     NotFoundComponent,
     AlertComponent,
-  ],
+    TableDropdownComponent
+],
   templateUrl: "./list-paiements.component.html",
   styleUrl: "./list-paiements.component.css",
 })
@@ -56,7 +58,7 @@ export class ListPaiementsComponent {
           return paiement;
         }
         // on cherche dans la colonne montant du tableau
-        if (paiement.montant.toLowerCase().includes(searchedWord.toLowerCase())) {
+        if (paiement.montant.toString().toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;
         }
         // on cherche dans la colonne mois du tableau

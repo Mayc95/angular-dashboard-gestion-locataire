@@ -6,7 +6,7 @@ export interface PaiementDetails {
   nomLocataire: string;
   idAppartement: string,
   libelleAppartement:string;
-  montant: string;
+  montant: number;
   mois: string;
   statut:string;
   recuPaiement: Attachment;
@@ -16,7 +16,7 @@ export interface PaiementDetails {
 
 export interface Paiement {
   idLocataire: string;
-  montant: string;
+  montant: number;
   mois: string;
   datePaiement:Date;
 }

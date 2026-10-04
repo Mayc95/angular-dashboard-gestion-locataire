@@ -53,7 +53,7 @@ export class AddPaiementComponent {
 
   newPaiement:Paiement = {
     idLocataire: '',
-    montant: '',
+    montant: 0,
     mois: '',
     datePaiement: new Date(),
   }
@@ -93,8 +93,9 @@ export class AddPaiementComponent {
 
   // for input Montant
   handleMontantChange(value:string) {
-    console.log('Montant: ',value);
-    this.newPaiement.montant = value;
+    console.log('Montant string: ',value);
+    console.log('Montant number: ',parseFloat(value));
+    this.newPaiement.montant = parseFloat(value) || 0;
   }
 
   // for select Mois
@@ -135,8 +136,8 @@ export class AddPaiementComponent {
         "Veuillez selectionner un mois"
       ) ??
       this.formfieldsValidationService.check(
-        !paiement.montant.trim(),
-        "Veuillez entrer un montant"
+        paiement.montant == 0,
+        "Veuillez entrer un montant en Fcfa (que des chiffres)"
       ) ??
       this.formfieldsValidationService.check(
         !paiement.datePaiement,

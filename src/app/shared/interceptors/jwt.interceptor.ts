@@ -20,7 +20,10 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && isApiRequest) {
         authService.signout();
-        void router.navigate(['/signin'], { queryParams: { returnUrl: router.url } });
+        //router.navigate(['/signin']);
+        //Pour retourner l'user sur la page de login avec l'url d'ou il vient en parametre
+        //void router.navigate(['/signin'], { queryParams: { returnUrl: router.url } });
+        void router.navigate(['/signin'], { queryParams: { error: "auth" } });
       }
 
       return throwError(() => error);
