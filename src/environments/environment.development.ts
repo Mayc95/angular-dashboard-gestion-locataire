@@ -4,4 +4,5 @@ export const environment = {
     // This keeps requests on the same origin and avoids browser CORS checks.
     apiUrl: '/api',
     authLoginPath: '/auth/login',
+    authMePath: '/auth/me'
 };

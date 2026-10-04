@@ -11,23 +11,30 @@ import { StatsApiService } from '../../../shared/services/api/stats-api.service'
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StatsDto } from '../../../shared/models/shared.model';
 import { LocatairesService } from '../../../shared/services/locataire.service';
+import { NotFoundComponent } from '../../other-page/not-found/not-found.component';
 
 @Component({
   selector: 'app-home',
   imports: [
     SafeHtmlPipe,
-    BadgeComponent
-  ],
+    BadgeComponent,
+    NotFoundComponent
+],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
 
   readonly #statsApiService = inject(StatsApiService);
   readonly statsData = signal<StatsDto | undefined>(undefined);
+  readonly error = signal(false);
 
   ngOnInit(): void {
     this.#statsApiService.getStats().subscribe({
-      next: (value) => this.statsData.set(value)
+      next: (value) => this.statsData.set(value),
+      error: (error) => {
+        console.error('Error fetching stats:', error);
+        this.error.set(true);
+      }
     });
   }
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { LoginCredentials, LoginResponse } from '../models/auth.model';
+import { AuthenticatedUserDetails, LoginCredentials, LoginResponse } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,19 @@ export class AuthService {
   readonly #accessTokenKey = 'access_token';
   readonly #refreshTokenKey = 'refresh_token';
   readonly #accessToken = signal<string | null>(this.readValidAccessToken());
+  readonly username = signal<string | null>(null);
 
   /** True when a non-expired access token is available. */
   readonly isLoggedIn = computed(() => this.#accessToken() !== null);
+
+  public me():Observable<AuthenticatedUserDetails> {
+    return this.#http.get<AuthenticatedUserDetails>(`${environment.apiUrl}${environment.authMePath}`);
+  }
+  
+  public getUsername() : string|null {
+    return this.username();
+  }
+  
 
   /**
    * Sends credentials to the API and persists the returned JWT.
@@ -24,7 +34,13 @@ export class AuthService {
     return this.#http
       .post<LoginResponse>(`${environment.apiUrl}${environment.authLoginPath}`, credentials)
       .pipe(
-        tap((response) => this.storeTokens(response.token!)),
+        tap((response) => {
+          if(response.token) {
+            this.storeTokens(response.token)
+            // store username
+            this.username.set(credentials.username);
+          }
+        }),
         // The component only needs to know that authentication succeeded.
         map(() => undefined),
       );
@@ -45,6 +61,8 @@ export class AuthService {
   signout(): void {
     localStorage.removeItem(this.#accessTokenKey);
     localStorage.removeItem(this.#refreshTokenKey);
+    // clear username
+    this.username.set(null);
     this.#accessToken.set(null);
   }
 

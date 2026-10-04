@@ -12,3 +12,10 @@ export interface LoginResponse {
   jwt?: string;
   refreshToken?: string;
 }
+
+export interface AuthenticatedUserDetails {
+  username: string;
+  email: string;
+  authenticated: boolean;
+  authorities: [];
+}

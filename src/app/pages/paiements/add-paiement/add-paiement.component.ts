@@ -51,9 +51,9 @@ export class AddPaiementComponent {
   readonly showLoading = signal(false);
   errorMessage = signal("");
 
-  newPaiement:Paiement = {
+  newPaiement = {
     idLocataire: '',
-    montant: 0,
+    montant: '',
     mois: '',
     datePaiement: new Date(),
   }
@@ -94,8 +94,7 @@ export class AddPaiementComponent {
   // for input Montant
   handleMontantChange(value:string) {
     console.log('Montant string: ',value);
-    console.log('Montant number: ',parseFloat(value));
-    this.newPaiement.montant = parseFloat(value) || 0;
+    this.newPaiement.montant = value;
   }
 
   // for select Mois
@@ -118,30 +117,27 @@ export class AddPaiementComponent {
     console.log('paiement:');
     console.dir(this.newPaiement);
 
-    const paiement: Paiement = {
-        idLocataire: this.newPaiement.idLocataire,
-        montant: this.newPaiement.montant,
-        mois: this.newPaiement.mois,
-        datePaiement: this.newPaiement.datePaiement,
-      }
-
     // Verification des champs du formulaire
     const message =
       this.formfieldsValidationService.check(
-        !paiement.idLocataire.trim(),
+        !this.newPaiement.idLocataire.trim(),
         "Veuillez sélectionner un locataire"
       ) ??
       this.formfieldsValidationService.check(
-        !paiement.mois.trim(),
+        !this.newPaiement.mois.trim(),
         "Veuillez selectionner un mois"
       ) ??
       this.formfieldsValidationService.check(
-        paiement.montant == 0,
-        "Veuillez entrer un montant en Fcfa (que des chiffres)"
+        isNaN(parseFloat(this.newPaiement.montant)) || 
+        parseFloat(this.newPaiement.montant) <= 0 ||
+        !/^\d+$/.test(this.newPaiement.montant),
+        "Veuillez entrer un montant en Fcfa (que des chiffres et aucun caracatère spécial, de lettres ni d'espace)"
       ) ??
       this.formfieldsValidationService.check(
-        !paiement.datePaiement,
-        "Veuillez selectionner une date"
+        !this.newPaiement.datePaiement || 
+        this.newPaiement.datePaiement == null ||
+        this.newPaiement.datePaiement > new Date(),
+        "Veuillez selectionner une date qui n'est pas dans le futur, c'est a dire une date qui est aujourd'hui ou dans le passé"
       );
 
     if (message) {
@@ -151,8 +147,15 @@ export class AddPaiementComponent {
     }
     // Fin verification des champs du formulaire
 
+    const paiement: Paiement = {
+        idLocataire: this.newPaiement.idLocataire,
+        montant: parseFloat(this.newPaiement.montant),
+        mois: this.newPaiement.mois,
+        datePaiement: this.newPaiement.datePaiement,
+      }
+
     console.log('new Paiement value:');
-      console.table(paiement);
+    console.table(paiement);
 
       this.showLoading.set(true);
 
