@@ -21,5 +21,20 @@ export type StatsDto = {
     numOfNotDeletedPaiements: number;
 }
 
+export interface Notification {
+    id: string;
+    action: string;
+    description: string;
+    entity: string;
+    authorUsername: string;
+    authorEmail: string;
+    receiverUsername: string;
+    receiverEmail: string;
+    createdAt: string;
+    viewed: boolean;
+}
+
+export type ListNotification = Notification[];
+
 
 export const USER_DEFAULT_PICTURE_URL = "/images/user/user-default.png";

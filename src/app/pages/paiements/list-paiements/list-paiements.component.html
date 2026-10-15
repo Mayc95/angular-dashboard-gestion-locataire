@@ -131,7 +131,7 @@
         </div>
         <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Montant (FCFA) :</span>
-          <span class="font-semibold text-gray-800">{{ paiement.montant
+          <span class="font-semibold text-gray-800">{{ paiement.montant | currency:'XOF'
             }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
@@ -290,7 +290,7 @@
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            {{ paiement.montant }} FCFA
+            {{ paiement.montant | currency:'XOF' }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -584,7 +584,7 @@
           <app-input-field
             type="text"
             id="montant"
-            [value]="paiement.montant"
+            (value)="paiement.montant"
             [disabled]="true" />
         </div>
         <div class="w-1/2">

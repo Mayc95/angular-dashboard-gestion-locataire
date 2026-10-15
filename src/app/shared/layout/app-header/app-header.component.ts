@@ -12,7 +12,7 @@ import { UserDropdownComponent } from '../../components/header/user-dropdown/use
     CommonModule,
     RouterModule,
     ThemeToggleButtonComponent,
-    //NotificationDropdownComponent,
+    NotificationDropdownComponent,
     UserDropdownComponent,
   ],
   templateUrl: './app-header.component.html',

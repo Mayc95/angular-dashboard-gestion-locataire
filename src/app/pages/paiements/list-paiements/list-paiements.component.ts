@@ -10,13 +10,14 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { NotFoundComponent } from '../../other-page/not-found/not-found.component';
 import { AlertComponent } from '../../../shared/components/ui/alert/alert.component';
 import { PaiementsService } from "../../../shared/services/paiements.service";
-import { DatePipe } from "@angular/common";
+import { CurrencyPipe, DatePipe } from "@angular/common";
 import { TableDropdownComponent } from "../../../shared/components/common/table-dropdown/table-dropdown.component";
 
 @Component({
   selector: "app-list-paiements",
   imports: [
     DatePipe,
+    CurrencyPipe,
     BadgeComponent,
     ModalComponent,
     ButtonComponent,
@@ -179,6 +180,8 @@ export class ListPaiementsComponent {
     } else {
       this.selectedPaiement.set(undefined);
     }
+    this.recuPaiementFile = undefined;
+    this.recuPaiementPreview = undefined;
   }
   onChangeRecuPaiement(event: Event) {
     const input = event.target as HTMLInputElement;
