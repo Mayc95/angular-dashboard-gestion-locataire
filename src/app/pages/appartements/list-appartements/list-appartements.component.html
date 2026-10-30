@@ -9,7 +9,7 @@
 
 @if (listAppartements()) {
 <div
-  class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] pt-5">
+  class="rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] pt-5">
   <div
     class="flex flex-row gap-2 px-5 mb-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
     <div
@@ -63,9 +63,9 @@
     </div>
   </div>
 
-  <div class="max-w-full overflow-x-auto">
+  <div class="max-w-full">
     <!-- sur mobile -->
-    <div class="block md:hidden space-y-4">
+    <div class="block h-[100vh] md:hidden space-y-4 overflow-y-auto">
       @for (appartement of listAppartementsFiltered(); track $index) {
       <!-- Carte Appartement -->
 
@@ -109,7 +109,8 @@
     </div>
 
     <!-- sur desktop -->
-    <table class="hidden md:block md:w-full min-w-full">
+     <div class="hidden md:block md:w-full min-w-full h-[60vh] overflow-y-auto">
+      <table>
       <!-- Table Header -->
       <thead class="border-b border-gray-100 dark:border-white/[0.05]">
         <tr>
@@ -222,6 +223,7 @@
         }
       </tbody>
     </table>
+     </div>
   </div>
 </div>
 }

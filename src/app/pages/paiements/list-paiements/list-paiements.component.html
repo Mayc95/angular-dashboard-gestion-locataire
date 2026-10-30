@@ -109,7 +109,7 @@
 
   <div class="max-w-full overflow-x-auto">
     <!-- sur mobile -->
-    <div class="block md:hidden space-y-4">
+    <div class="block h-[100vh] md:hidden space-y-4 overflow-y-auto">
       @for (paiement of listPaiementsFiltered(); track $index) {
       <!-- Carte Paiement -->
 
@@ -237,7 +237,9 @@
       }
     </div>
     <!-- sur desktop -->
-    <table class="hidden md:block min-w-full">
+     <div class="hidden md:block md:w-full min-w-full h-[60vh] overflow-y-auto">
+      
+    <table>
       <!-- Table Header -->
       <thead class="border-b border-gray-100 dark:border-white/[0.05]">
         <tr>
@@ -422,6 +424,7 @@
         }
       </tbody>
     </table>
+     </div>
   </div>
 </div>
 }
