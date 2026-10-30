@@ -1,5 +1,6 @@
 <app-component-card title="Ajouter un locataire">
-  @if(showLoading()) {
+  <div class="h-[70vh] overflow-y-auto">
+    @if(showLoading()) {
 
   <div class="w-full h-full flex justify-center items-center pb-[60px]">
     <div role="status">
@@ -31,7 +32,7 @@
   }
 
   <div>
-    <div class="w-full flex flex-col gap-1 justify-center items-center mb-6">
+    <div class="w-full flex flex-col gap-1 justify-center items-center mb-4">
       <div class="p-2">
         @if (photoProfilPreview) { <img class="p-1  w-[200px] h-[200px]" [src]="photoProfilPreview" /> }
         @else { <h2>Aucune image selectionner</h2>}
@@ -113,4 +114,5 @@
   </div>
 
   }
+  </div>
 </app-component-card>

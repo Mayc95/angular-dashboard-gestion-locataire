@@ -1,5 +1,6 @@
 <app-component-card title="Modifier un locataire">
-  @if (error()) {
+  <div class="h-[70vh] overflow-y-auto">
+    @if (error()) {
     <div
       class="mx-auto w-full flex flex-col items-center justify-center text-center"
     >
@@ -151,4 +152,6 @@
       </div>
     </form>
   }
+  </div>
+  
 </app-component-card>
