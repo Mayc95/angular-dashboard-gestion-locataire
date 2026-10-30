@@ -11,7 +11,7 @@ import { ButtonComponent } from "../../../shared/components/ui/button/button.com
 import { Router } from '@angular/router';
 import { FormfieldsValidationService } from '../../../shared/services/formfields.validation.service';
 import { AppartementService } from "../../../shared/services/appartement.service";
-import { AppartementDetails } from "../../../shared/models/appartement.model";
+import { Appartement, AppartementDetails } from "../../../shared/models/appartement.model";
 
 @Component({
   selector: "app-list-appartements",
@@ -80,14 +80,10 @@ export class ListAppartementsComponent {
     return list;
   })
 
-  newAppartement: AppartementDetails = {
-    id: '',
+  newAppartement = {
     batiment: '',
-    numEtage: 0,
-    numPorte: 0,
-    idLocataire: '',
-    nomLocataire: '',
-    libelle: ''
+    numEtage: '',
+    numPorte: ''
   };
   addAppartementModalLoading = signal(false);
   addAppartementModalError = signal(false);
@@ -101,7 +97,13 @@ export class ListAppartementsComponent {
     console.log(this.listAppartements());
   }
   closeAddAppartementModal() {
+    // pour declencher le processus de mise a jour de la liste de appartements
     this.#signalDeclencheur.update((currentValue) => ++currentValue);
+    // on vide les champs des formulaires
+    this.newAppartement.batiment = '';
+    this.newAppartement.numEtage = '';
+    this.newAppartement.numPorte = '';
+    // on ferme le modal
     this.addAppartementModalIsOpen.set(false);
   }
   onSubmitAddAppartementForm() {
@@ -117,8 +119,12 @@ export class ListAppartementsComponent {
         "Veuillez entrer le libelle du batiment (ex: A, B, C etc...)"
       ) ??
       this.formfieldsValidationService.check(
-        this.newAppartement.numPorte <= 0,
-        "Veuillez sélectionner un numero superieur a 0"
+        this.newAppartement.numEtage.trim().length <= 0 || isNaN(parseInt(this.newAppartement.numEtage.trim())),
+        "Veuillez entrer un numero pour l'étage (ex: 0 pour le rez-de-chaussée, ou 1, 2, 3, 5 etc...)"
+      ) ??
+      this.formfieldsValidationService.check(
+        this.newAppartement.numPorte.trim().length <= 0 || isNaN(parseInt(this.newAppartement.numPorte.trim())),
+        "Veuillez entrer un numero pour la porte de l'appartement (ex: Un chiffre compris entre 1 et 9)"
       );
 
     if (message) {
@@ -128,10 +134,15 @@ export class ListAppartementsComponent {
     }
 
     // 
+    let newAppart:Appartement = {
+      batiment: this.newAppartement.batiment,
+      numEtage: parseInt(this.newAppartement.numEtage),
+      numPorte: parseInt(this.newAppartement.numPorte)
+    }
     const appartWithSameData = this.listAppartements()?.find((appart) =>
-      appart.batiment == this.newAppartement.batiment &&
-      appart.numEtage == this.newAppartement.numEtage &&
-      appart.numPorte == this.newAppartement.numPorte
+      appart.batiment == newAppart.batiment &&
+      appart.numEtage == newAppart.numEtage &&
+      appart.numPorte == newAppart.numPorte
     )
     if (appartWithSameData) {
       this.addAppartementModalError.set(true);
@@ -141,7 +152,7 @@ export class ListAppartementsComponent {
 
     this.addAppartementModalLoading.set(true);
 
-    this.#appartementService.addAppartement(this.newAppartement).subscribe({
+    this.#appartementService.addAppartement(newAppart).subscribe({
       next: () => {
         this.searchedWord.set("");
         this.closeAddAppartementModal();
