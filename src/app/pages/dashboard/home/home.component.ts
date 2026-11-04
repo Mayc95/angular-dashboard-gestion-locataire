@@ -1,17 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { EcommerceMetricsComponent } from '../../../shared/components/ecommerce/ecommerce-metrics/ecommerce-metrics.component';
-import { MonthlySalesChartComponent } from '../../../shared/components/ecommerce/monthly-sales-chart/monthly-sales-chart.component';
-import { MonthlyTargetComponent } from '../../../shared/components/ecommerce/monthly-target/monthly-target.component';
-import { StatisticsChartComponent } from '../../../shared/components/ecommerce/statics-chart/statics-chart.component';
-import { DemographicCardComponent } from '../../../shared/components/ecommerce/demographic-card/demographic-card.component';
-import { RecentOrdersComponent } from '../../../shared/components/ecommerce/recent-orders/recent-orders.component';
 import { BadgeComponent } from "../../../shared/components/ui/badge/badge.component";
 import { SafeHtmlPipe } from '../../../shared/pipe/safe-html.pipe';
 import { StatsApiService } from '../../../shared/services/api/stats-api.service';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { StatsDto } from '../../../shared/models/shared.model';
-import { LocatairesService } from '../../../shared/services/locataire.service';
 import { NotFoundComponent } from '../../other-page/not-found/not-found.component';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -27,14 +20,21 @@ export class HomeComponent implements OnInit {
   readonly #statsApiService = inject(StatsApiService);
   readonly statsData = signal<StatsDto | undefined>(undefined);
   readonly error = signal(false);
+  readonly loadingData = signal(false);
 
   ngOnInit(): void {
+    this.loadingData.set(true);
     this.#statsApiService.getStats().subscribe({
-      next: (value) => this.statsData.set(value),
+      next: (value) => {
+        this.statsData.set(value);
+        this.loadingData.set(false);
+      },
       error: (error) => {
         console.error('Error fetching stats:', error);
+        this.loadingData.set(false);
         this.error.set(true);
-      }
+      },
+      complete: () => this.loadingData.set(false)
     });
   }
 

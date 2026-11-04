@@ -11,6 +11,7 @@ import { PaiementApiService } from './shared/services/api/paiement-api.service';
 import { jwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { loaderInterceptor } from './shared/interceptors/loader.interceptor';
 
 export function paiementsServiceFactory(): PaiementsService {
   return new PaiementApiService();
@@ -31,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     { provide: LOCALE_ID, useValue: 'fr' }, 
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
-    provideHttpClient(withInterceptors([jwtInterceptor])),
+    provideHttpClient(withInterceptors([jwtInterceptor, loaderInterceptor])),
     {
       provide: AppartementService,
       useFactory: appartementsServiceFactory

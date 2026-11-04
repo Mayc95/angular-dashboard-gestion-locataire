@@ -210,8 +210,8 @@ layer(base); */
   body {
     @apply relative font-normal font-outfit z-1 bg-gray-50;
     /* block overflow-y on document */
-    height: 100vh !important;
-    overflow: hidden !important;
+    /* height: 100vh !important;
+    overflow: hidden !important; */
   }
 }
 
