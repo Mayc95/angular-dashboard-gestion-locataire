@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadingData.set(true);
-    this.#statsApiService.getStats().subscribe({
+    this.#statsApiService.getStats().pipe(delay(1000)).subscribe({
       next: (value) => {
         this.statsData.set(value);
         this.loadingData.set(false);

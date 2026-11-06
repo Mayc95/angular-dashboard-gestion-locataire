@@ -44,7 +44,7 @@ export class ListPaiementsComponent {
     )
   );
 
-  readonly showLoading = computed(() => this.#listPaiementsDetailsResponse() == undefined);
+  // readonly showLoading = computed(() => this.#listPaiementsDetailsResponse() == undefined);
   readonly error = computed(() => this.#listPaiementsDetailsResponse()?.error);
   readonly listPaiements = computed(() => this.#listPaiementsDetailsResponse()?.value);
   readonly listPaiementsFiltered = computed(() => {

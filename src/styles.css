@@ -889,3 +889,19 @@ pre[class*="language-"] {
 pre[class*="language-"].line-numbers {
   padding-left: 2.8em !important;
 }
+
+/* App customs styles */
+@keyframes pingPong {
+  0%, 100% { 
+    left: 0%; 
+    transform: translateX(0%); 
+  }
+  50% { 
+    left: 100%; 
+    transform: translateX(-100%); 
+  }
+}
+
+.animate-ping-pong {
+  animation: pingPong 1.6s ease-in-out infinite;
+}

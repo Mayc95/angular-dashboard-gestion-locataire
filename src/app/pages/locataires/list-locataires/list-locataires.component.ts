@@ -41,7 +41,7 @@ export class ListLocatairesComponent {
     )))
   );
 
-  readonly showLoading = computed(() => this.#listLocatairesResponse() == undefined);
+  // readonly showLoading = computed(() => this.#listLocatairesResponse() == undefined);
   readonly listLocataires = computed(() => {
     console.log("list locataire: ");
     console.log(this.#listLocatairesResponse()?.value);

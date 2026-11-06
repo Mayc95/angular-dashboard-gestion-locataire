@@ -58,7 +58,7 @@ export class EditLocataireComponent {
     return this.#locataireResponse()?.value
   });
   readonly selectedAppartementId = computed(() => this.#locataireResponse()?.value?.idAppartement.toString() ?? '');
-  readonly loading = computed(() => this.#locataireResponse() == undefined);
+  // readonly loading = computed(() => this.#locataireResponse() == undefined);
   readonly error = computed(() => this.#locataireResponse()?.error);
 
   

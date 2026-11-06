@@ -36,7 +36,7 @@ export class ListAppartementsComponent {
 
   readonly error = computed(() => this.#listAppartementsResponse()?.error);
   readonly listAppartements = computed(() => this.#listAppartementsResponse()?.value);
-  readonly showLoading = computed(() => this.#listAppartementsResponse() == undefined);
+  // readonly showLoading = computed(() => this.#listAppartementsResponse() == undefined);
 
   readonly searchedWord = signal("");
   readonly listAppartementsFiltered = computed(() => {
