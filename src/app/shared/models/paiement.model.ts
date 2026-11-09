@@ -8,6 +8,7 @@ export interface PaiementDetails {
   libelleAppartement:string;
   montant: number;
   mois: string;
+  annee: string;
   statut:string;
   recuPaiement: Attachment;
   datePaiement:Date;
@@ -18,6 +19,7 @@ export interface Paiement {
   idLocataire: string;
   montant: number;
   mois: string;
+  annee: string;
   datePaiement:Date;
 }
 

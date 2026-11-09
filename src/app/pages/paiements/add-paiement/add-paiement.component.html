@@ -94,6 +94,17 @@
           (valueChange)="handleSelectMoisChange($event)"
           className="dark:bg-dark-900" />
       </div>
+      <!-- Année paiement -->
+      <div class="w-1/2">
+        <app-label>Année</app-label>
+        <app-input-field
+          type="text"
+          id="annee"
+          [(value)]="newPaiement.annee" />
+      </div>
+    </div>
+
+    <div class="flex justify-between gap-2 mb-3">
       <!-- Date de paiement -->
       <div class="w-1/2">
         <app-date-picker
@@ -101,7 +112,6 @@
           label="Date de paiement"
           placeholder="Selectionner une date"
           (dateChange)="handleDatePaiementChange($event)" />
-
       </div>
     </div>
 

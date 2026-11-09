@@ -55,6 +55,7 @@ export class AddPaiementComponent {
     idLocataire: '',
     montant: '',
     mois: '',
+    annee: '',
     datePaiement: new Date(),
   }
 
@@ -65,7 +66,17 @@ export class AddPaiementComponent {
   readonly recuPaiementFile= signal<File|undefined>(undefined);
   recuPaiementFilePreview:string|undefined = undefined;
 
+  
+  onChangeRecuPaiement(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if(input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.recuPaiementFile.set(file);
+      this.recuPaiementFilePreview = URL.createObjectURL(file);
+    }
+  }
 
+  // for select Locataire
   handleSelectLocataireChange(value: string) {
     console.log('list locataire:');
     console.dir(this.#listLocataire()?.value);
@@ -80,16 +91,6 @@ export class AddPaiementComponent {
     this.newPaiement.idLocataire = value;
     console.log('Selected Locataire value:', value);
   }
-
-  onChangeRecuPaiement(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if(input.files && input.files.length > 0) {
-      const file = input.files[0];
-      this.recuPaiementFile.set(file);
-      this.recuPaiementFilePreview = URL.createObjectURL(file);
-    }
-  }
-
 
   // for input Montant
   handleMontantChange(value:string) {
@@ -128,6 +129,10 @@ export class AddPaiementComponent {
         "Veuillez selectionner un mois"
       ) ??
       this.formfieldsValidationService.check(
+        this.newPaiement.annee.trim().length<=0,
+        "Veuillez entrer une année, celle du mois de paiement"
+      ) ??
+      this.formfieldsValidationService.check(
         isNaN(parseFloat(this.newPaiement.montant)) || 
         parseFloat(this.newPaiement.montant) <= 0 ||
         !/^\d+$/.test(this.newPaiement.montant),
@@ -151,6 +156,7 @@ export class AddPaiementComponent {
         idLocataire: this.newPaiement.idLocataire,
         montant: parseFloat(this.newPaiement.montant),
         mois: this.newPaiement.mois,
+        annee: this.newPaiement.annee,
         datePaiement: this.newPaiement.datePaiement,
       }
 

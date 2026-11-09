@@ -140,6 +140,10 @@
           <span class="font-semibold text-gray-800">{{ paiement.mois }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
+          <span class="text-gray-500">Année :</span>
+          <span class="font-semibold text-gray-800">{{ paiement.annee }}</span>
+        </div>
+        <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Date du paiement:</span>
           <span class="font-semibold text-gray-800">{{ paiement.datePaiement |
             date: "dd/MM/yyyy" }}</span>
@@ -265,6 +269,10 @@
           </th>
           <th
             class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+            Année
+          </th>
+          <th
+            class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
             Date du paiement
           </th>
           <th
@@ -297,6 +305,10 @@
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
             {{ paiement.mois }}
+          </td>
+          <td
+            class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+            {{ paiement.annee }}
           </td>
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -581,6 +593,14 @@
 
       <div class="flex justify-between gap-2 mb-3">
         <div class="w-1/2">
+          <app-label>Année</app-label>
+          <app-input-field
+            type="text"
+            id="annee"
+            [value]="paiement.annee"
+            [disabled]="true" />
+        </div>
+        <div class="w-1/2">
           <app-label>Date de paiement</app-label>
           <app-input-field
             type="text"
@@ -588,6 +608,9 @@
             [value]="(paiement.datePaiement | date: 'dd/MM/yyyy') ?? ''"
             [disabled]="true" />
         </div>
+      </div>
+
+      <div class="flex justify-between gap-2 mb-3">
         <div class="w-1/2">
           <app-label>Statut</app-label>
           <app-input-field

@@ -66,6 +66,10 @@ export class ListPaiementsComponent {
         if (paiement.mois.toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;
         }
+        // on cherche dans la colonne annee du tableau
+        if (paiement.annee.toLowerCase().includes(searchedWord.toLowerCase())) {
+          return paiement;
+        }
         // on cherche dans la colonne statut du tableau
         if (paiement.statut.toLowerCase().includes(searchedWord.toLowerCase())) {
           return paiement;

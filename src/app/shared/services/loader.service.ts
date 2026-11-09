@@ -4,6 +4,7 @@ import { Injectable, signal } from "@angular/core";
     providedIn: 'root'
 })
 export class LoaderService {
+    // Compteur pour éviter le piège des requêtes simultanées
     #activeAsyncRequest = 0;
     readonly isLoading = signal(false);
 
