@@ -20,7 +20,6 @@ export interface Paiement {
   montant: number;
   mois: string;
   annee: string;
-  datePaiement:Date;
 }
 
 export type ListPaiementsDetails = PaiementDetails[];

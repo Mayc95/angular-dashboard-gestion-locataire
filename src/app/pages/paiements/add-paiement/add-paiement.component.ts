@@ -5,7 +5,6 @@ import { LabelComponent } from "../../../shared/components/form/label/label.comp
 import { InputFieldComponent } from "../../../shared/components/form/input/input-field.component";
 import { ButtonComponent } from "../../../shared/components/ui/button/button.component";
 import { SelectComponent } from "../../../shared/components/form/select/select.component";
-import { DatePickerComponent } from "../../../shared/components/form/date-picker/date-picker.component";
 import { MONTHS } from "../../../shared/models/shared.model";
 import { LIST_STATUT_PAIEMENT, Paiement } from "../../../shared/models/paiement.model";
 import { catchError, map, of } from 'rxjs';
@@ -24,7 +23,6 @@ import { PaiementsService } from '../../../shared/services/paiements.service';
     LabelComponent,
     InputFieldComponent,
     SelectComponent,
-    DatePickerComponent,
     ButtonComponent,
     AlertComponent
 ],
@@ -55,8 +53,7 @@ export class AddPaiementComponent {
     idLocataire: '',
     montant: '',
     mois: '',
-    annee: '',
-    datePaiement: new Date(),
+    annee: ''
   }
 
   // for select Locataire
@@ -104,15 +101,7 @@ export class AddPaiementComponent {
     console.log('Selected Mois value:', value);
   }
 
-  // for date paiement input
-  handleDatePaiementChange(event: any) {
-    this.newPaiement.datePaiement = event.selectedDates[0];
-    console.log(event);
-    console.log(typeof event);
-    console.log('Date changed:', this.newPaiement.datePaiement ?? null);
-  }
-
-  //
+  // on submit form Add Paiement
   onAddPaiement() {
 
     console.log('paiement:');
@@ -137,12 +126,6 @@ export class AddPaiementComponent {
         parseFloat(this.newPaiement.montant) <= 0 ||
         !/^\d+$/.test(this.newPaiement.montant),
         "Veuillez entrer un montant en Fcfa (que des chiffres et aucun caracatère spécial, de lettres ni d'espace)"
-      ) ??
-      this.formfieldsValidationService.check(
-        !this.newPaiement.datePaiement || 
-        this.newPaiement.datePaiement == null ||
-        this.newPaiement.datePaiement > new Date(),
-        "Veuillez selectionner une date qui n'est pas dans le futur, c'est a dire une date qui est aujourd'hui ou dans le passé"
       );
 
     if (message) {
@@ -156,8 +139,7 @@ export class AddPaiementComponent {
         idLocataire: this.newPaiement.idLocataire,
         montant: parseFloat(this.newPaiement.montant),
         mois: this.newPaiement.mois,
-        annee: this.newPaiement.annee,
-        datePaiement: this.newPaiement.datePaiement,
+        annee: this.newPaiement.annee
       }
 
     console.log('new Paiement value:');
@@ -185,4 +167,15 @@ export class AddPaiementComponent {
       })
 
   }
+
+  // old features
+  /*
+  // for date paiement input
+  handleDatePaiementChange(event: any) {
+    this.newPaiement.datePaiement = event.selectedDates[0];
+    console.log(event);
+    console.log(typeof event);
+    console.log('Date changed:', this.newPaiement.datePaiement ?? null);
+  }
+  */
 }

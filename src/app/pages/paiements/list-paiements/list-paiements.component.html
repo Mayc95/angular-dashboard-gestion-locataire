@@ -144,11 +144,6 @@
           <span class="font-semibold text-gray-800">{{ paiement.annee }}</span>
         </div>
         <div class="flex justify-between text-sm mb-4">
-          <span class="text-gray-500">Date du paiement:</span>
-          <span class="font-semibold text-gray-800">{{ paiement.datePaiement |
-            date: "dd/MM/yyyy" }}</span>
-        </div>
-        <div class="flex justify-between text-sm mb-4">
           <span class="text-gray-500">Statut :</span>
           <app-badge
             size="sm"
@@ -273,10 +268,6 @@
           </th>
           <th
             class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-            Date du paiement
-          </th>
-          <th
-            class="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
             Status
           </th>
           <th
@@ -309,10 +300,6 @@
           <td
             class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
             {{ paiement.annee }}
-          </td>
-          <td
-            class="px-5 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-            {{ paiement.datePaiement | date: "dd/MM/yyyy" }}
           </td>
           <td
             class="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -601,11 +588,11 @@
             [disabled]="true" />
         </div>
         <div class="w-1/2">
-          <app-label>Date de paiement</app-label>
+          <app-label>Date d'enregistrement du paiement</app-label>
           <app-input-field
             type="text"
             id="datepaiement"
-            [value]="(paiement.datePaiement | date: 'dd/MM/yyyy') ?? ''"
+            [value]="(paiement.created | date: 'dd/MM/yyyy') ?? ''"
             [disabled]="true" />
         </div>
       </div>
