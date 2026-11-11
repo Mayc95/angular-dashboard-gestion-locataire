@@ -10,7 +10,71 @@
         <!-- ===== Common Grid Shape Start ===== -->
         <app-grid-shape />
         <div class="flex flex-col items-center max-w-xs">
-          <a routerLink="/" class="block mb-4">
+          <a routerLink="/">
+            <!-- for dark theme -->
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 240 40"
+                width="440"
+                height="240"
+              >
+                <!-- Fond du picto (Bleu vibrant pour theme sombre) -->
+                <rect
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  rx="10"
+                  ry="10"
+                  fill="#3C50E0"
+                />
+                <!-- Barres verticales -->
+                <!-- Barre 1 (gauche - blanche) -->
+                <rect
+                  x="7"
+                  y="10"
+                  width="5"
+                  height="20"
+                  rx="2.5"
+                  fill="#FFFFFF"
+                />
+                <!-- Barre 2 (milieu - bleu tres clair) -->
+                <rect
+                  x="15.5"
+                  y="15"
+                  width="5"
+                  height="15"
+                  rx="2.5"
+                  fill="#C3D4FF"
+                />
+                <!-- Barre 3 (droite - bleu clair) -->
+                <rect
+                  x="24"
+                  y="12"
+                  width="5"
+                  height="18"
+                  rx="2.5"
+                  fill="#8EAECF"
+                />
+                <!-- Texte du logo (Blanc / Gris tres clair) -->
+                <text
+                  x="52"
+                  y="27"
+                  fill="#F1F5F9"
+                  font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif"
+                  font-size="19"
+                  font-weight="700"
+                  letter-spacing="-0.3"
+                >
+                  Gestion de locataires
+                </text>
+              </svg>
+            </span>
+          </a>
+
+          <!-- old content -->
+          <!-- <a routerLink="/" class="block mb-4">
             <img
               width="231"
               height="48"
@@ -20,7 +84,7 @@
           </a>
           <p class="text-center text-gray-400 dark:text-white/60">
             Free and Open-Source Tailwind CSS Admin Dashboard Template
-          </p>
+          </p> -->
         </div>
       </div>
     </div>
